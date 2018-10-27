@@ -1,0 +1,29 @@
+<div style="display: flex; flex-direction: column; width: 20%">
+  <button (click)="addBook(bookNumber)">Adicionar Livro</button>
+  <button (click)="getBooks()">Mostrar Livros</button>
+  <div *ngIf="currentBook != null">
+    <h2>Livro Aberto</h2>
+    <button (click)="editBook(currentBook.id)">Editar este Livro</button>
+    <p>Título: {{currentBook.title}}</p>
+    <p>Autor: {{currentBook.author}}</p>
+    <p>Categoria: {{currentBook.category}}</p>
+    <p>Disponíveis: {{currentBook.available}}</p>
+    <p>Edição: {{currentBook.edition}}</p>
+    <p>Ano: {{currentBook.year}}</p>
+    <p>Gêneros: {{currentBook.genders}}</p>
+    <p>Quantidade: {{currentBook.quantity}}</p>
+  </div>
+</div>
+<h2>Lista de Livros</h2>
+<div style="display: flex; flex-direction: row; flex-wrap: wrap">
+  <div *ngFor="let book of books" style="padding: 10px;">
+    <button (click)="deleteBook(book.id)">Deletar este Livro</button>
+    <button (click)="getBook(book.id)">Abrir este Livro</button>
+    <p>Título: {{book.title}}</p>
+    <p>Autor: {{book.author}}</p>
+    <p>Categoria: {{book.category}}</p>
+    <p>Disponíveis: {{book.available}}</p>
+    <br/>
+  </div>
+</div>
+
