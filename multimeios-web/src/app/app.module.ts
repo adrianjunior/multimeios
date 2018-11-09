@@ -2,18 +2,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
+import { AppRoutingModule } from './app-routing.module';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule, AngularFireAuth } from '@angular/fire/auth';
+import { FormsModule } from '@angular/forms';
+import { MaterialModule } from './material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { DbTestComponent } from './pages/db-test/db-test.component';
-import { AppRoutingModule } from './app-routing.module';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireAuthModule, AngularFireAuth } from '@angular/fire/auth';
 import { LoginPageComponent } from './pages/auth/login-page/login-page.component';
 import { AddBookComponent } from './pages/books/add-book/add-book.component';
 import { BookListComponent } from './pages/books/book-list/book-list.component';
 import { EditBookComponent } from './pages/books/edit-book/edit-book.component';
-import { BookProfileComponent } from './pages/books/book-profile/book-profile.component';
 import { AddNoticeComponent } from './pages/notices/add-notice/add-notice.component';
 import { NoticeListComponent } from './pages/notices/notice-list/notice-list.component';
 import { NoticeProfileComponent } from './pages/notices/notice-profile/notice-profile.component';
@@ -35,7 +37,6 @@ import { BookDonationComponent } from './pages/books/book-donation/book-donation
     AddBookComponent,
     BookListComponent,
     EditBookComponent,
-    BookProfileComponent,
     AddNoticeComponent,
     NoticeListComponent,
     NoticeProfileComponent,
@@ -55,7 +56,10 @@ import { BookDonationComponent } from './pages/books/book-donation/book-donation
     AngularFireModule.initializeApp(environment.firebase),
     AppRoutingModule,
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    MaterialModule,
+    FormsModule,
+    FlexLayoutModule
   ],
   providers: [
     AngularFirestore,
