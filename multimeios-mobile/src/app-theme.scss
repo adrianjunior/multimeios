@@ -1,0 +1,37 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$social-app-primary: mat-palette($mat-amber);
+$social-app-accent:  mat-palette($mat-blue);
+
+$books-app-primary: mat-palette($mat-purple);
+$books-app-accent:  mat-palette($mat-yellow);
+
+$news-app-primary: mat-palette($mat-light-blue);
+$news-app-accent:  mat-palette($mat-deep-orange);
+
+$app-warn: mat-palette($mat-red);
+
+$social-app-theme: mat-light-theme($social-app-primary, $social-app-accent, $app-warn);
+$books-app-theme: mat-light-theme($books-app-primary, $books-app-accent, $app-warn);
+$news-app-theme: mat-light-theme($news-app-primary, $news-app-accent, $app-warn);
+
+@include angular-material-theme($social-app-theme);
+.book-theme {
+    @include angular-material-theme($books-app-theme);
+}
+.news-theme {
+    @include angular-material-theme($news-app-theme);
+}
+
+/* CSS */
+
+html, body{
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+}
