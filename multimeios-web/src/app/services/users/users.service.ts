@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 
 import 'rxjs/add/operator/map'
 import { AngularFireAuth } from '@angular/fire/auth';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class UsersService {
   usersChanged = new Subject<User[]>();
   userChanged = new Subject<User>();
 
-  constructor(private db: AngularFirestore, private authentication: AngularFireAuth) { }
+  constructor(private db: AngularFirestore, private authentication: AngularFireAuth, private snackBar: MatSnackBar) { }
 
   //Create
   addUser(user: User, password: string, isStudent: boolean) {
@@ -26,15 +27,14 @@ export class UsersService {
       .then(res => {
         this.db
           .collection('users')
-          .add(user);
+          .add(user)
+          .then(res => {
+            this.openSnackBar('Usuário Cadastrado com sucesso!', 'OK')
+          });
       })
       .catch(err => {
         console.log(err);
       })
-    } else {
-      this.db
-        .collection('users')
-        .add(user);
     }
   }
 
@@ -91,5 +91,10 @@ export class UsersService {
     })
   }
 
-
+  //SnackBar
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
 }

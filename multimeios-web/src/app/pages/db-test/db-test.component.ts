@@ -128,10 +128,8 @@ export class DbTestComponent implements OnInit {
     this.userNumber += 1;
     const user: User = {
       name: 'Nome do Usuário ' + num,
-      grade: num,
       class: 'Nome da Classe ' + num,
       email: `aluno${num}@email.com`,
-      phone: 'Telefone do Usuário ' + num
     }
     if(num%2 == 0) {
       isStudent = true;
@@ -149,7 +147,6 @@ export class DbTestComponent implements OnInit {
   editUser(id: string) {
     let newUser: User = this.currentUser;
     newUser.name = 'Titulo Editado';
-    newUser.grade = 666;
     this.userService.editUser(id, newUser);
   }
 

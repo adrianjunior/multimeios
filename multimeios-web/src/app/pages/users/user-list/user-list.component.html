@@ -1,3 +1,56 @@
-<p>
-  user-list works!
-</p>
+<mat-drawer-container class="drawer-container">
+  <mat-drawer position="end" #drawer mode="over" class="drawer" fxLayout fxLayoutAlign="center center">
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form"> 
+
+      <mat-card-title>Informações do Aluno</mat-card-title>
+      
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Nome do Aluno" readonly value="{{user.name}}">
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Turma do Aluno" readonly value="{{user.class}}">
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Email do Aluno" readonly value="{{user.email}}">
+      </mat-form-field>
+   
+      <div fxLayout="row" fxLayoutGap="15px">
+        <button mat-raised-button color="primary" [disabled]="1 == 1">Editar Aluno</button>
+        <button mat-raised-button color="primary" [disabled]="1 == 1" (click)="goToDevolution()">Ver Livros Alugados</button>
+      </div>
+    </form>
+  </mat-drawer>
+  <div class="container mat-elevation-z4" style="margin-top: 5vh;">
+    <div class="header mat-elevation-z2">
+      <mat-form-field>
+        <input matInput (keyup)="sApplyFilter($event.target.value)" placeholder="Pesquisar">
+      </mat-form-field>
+    </div>
+    <mat-table #sTable #sSort="matSort" [dataSource]="sDataSource" matSort>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+        <mat-cell *matCellDef="let student"> {{student.name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="class">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Turma </mat-header-cell>
+        <mat-cell *matCellDef="let student"> {{student.class}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> E-Mail </mat-header-cell>
+        <mat-cell *matCellDef="let student"> {{student.email}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="sDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let student; columns: sDisplayedColumns;" class="row" (click)="toggleSidenav(student)">
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator #sPaginator [pageSize]="10" [showFirstLastButtons]="true">
+    </mat-paginator>
+  </div>
+</mat-drawer-container>

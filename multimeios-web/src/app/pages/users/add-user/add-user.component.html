@@ -1,3 +1,38 @@
-<p>
-  add-user works!
-</p>
+<section class="signin-form" fxLayoutAlign="center" fxLayoutGap="15px" style="margin-top: 5vh;">
+  <mat-card fxFlex="600px" class="mat-elevation-z2">
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form1="ngForm" (ngSubmit)="onSubmitStudent(form1)">
+      <mat-card-title>Registrar Novo Aluno</mat-card-title>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Nome do Aluno" ngModel name="name" required #unInput="ngModel">
+        <mat-error *ngIf="unInput.hasError('required')">Você deve colocar o nome do aluno.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <mat-select placeholder="Turma do Aluno" required name="class" ngModel #ucInput="ngModel">
+          <mat-option *ngFor="let class of classes" [value]="class">
+            {{class}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="ucInput.hasError('required')">Você deve colocar a turma do aluno.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="E-Mail do Aluno" ngModel name="email" required #ueInput="ngModel">
+        <mat-error *ngIf="ueInput.hasError('required')">Você deve colocar o email do aluno.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <input type="password" matInput placeholder="Senha do Aluno" ngModel name="password" required #upInput="ngModel">
+        <mat-error *ngIf="upInput.hasError('required')">Você deve colocar a senha.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <input type="password" matInput placeholder="Confirmação do Aluno" ngModel name="c-password" required #ucpInput="ngModel">
+        <mat-error *ngIf="ucInput.hasError('required')">Você deve colocar a confirmação.</mat-error>
+      </mat-form-field>
+
+      <button type="submit" mat-raised-button color="primary" [disabled]="form1.invalid">Registrar Aluno</button>
+    </form>    
+  </mat-card>
+</section>
