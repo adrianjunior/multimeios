@@ -1,3 +1,16 @@
-<div class="book-theme page-container" fxLayout="column" fxLayoutAlign="end">
-  <app-toolbar></app-toolbar>
+<div class="book-theme book-list-container">
+    <mat-list>
+        <mat-card class="book-card">
+            <mat-chip-list matLine>
+                <mat-chip color="primary" selected>Categoria</mat-chip>
+            </mat-chip-list>
+            <div class="book-container" matLine>
+                <p class="book-title">Título do Livro</p>
+                <p class="book-subtitle">Autor do Livro</p>
+                <p class="book-subtitle">Disponíveis: 
+                    <span>3</span>
+                </p>
+            </div>
+        </mat-card>
+    </mat-list>
 </div>

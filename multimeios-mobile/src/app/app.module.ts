@@ -17,7 +17,8 @@ import { NoticeProfileComponent } from './pages/notices/notice-profile/notice-pr
 import { MedalListComponent } from './pages/profile/medal-list/medal-list.component';
 import { MedalProfileComponent } from './pages/profile/medal-profile/medal-profile.component';
 import { ReadedbooksListComponent } from './pages/profile/readedbooks-list/readedbooks-list.component';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { MyProfileComponent } from './pages/profile/my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     MedalListComponent,
     MedalProfileComponent,
     ReadedbooksListComponent,
-    ToolbarComponent,
+    HomePageComponent,
+    MyProfileComponent,
   ],
   imports: [
     BrowserModule,

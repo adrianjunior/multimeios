@@ -1,5 +1,23 @@
-.page-container {
-    height: 100%;
-    width: 100%;
+.book-card {
+    padding: 16px;
 }
 
+.book-container {
+    padding-top: 8px;
+}
+
+.book-title {
+    font-size: 1.5em;
+}
+
+.book-subtitle {
+
+}
+
+.book-available {
+
+}
+
+.book-content {
+
+}

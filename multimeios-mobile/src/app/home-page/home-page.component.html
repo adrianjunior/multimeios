@@ -1,0 +1,30 @@
+<div [class.book-theme]="books.isActive" [class.news-theme]="news.isActive" class="page-container" fxLayout="column" fxLayoutAlign="end">
+  <mat-tab-group [color]="primary" [backgroundColor]="accent" headerPosition="below" mat-align-tabs="center">
+    <mat-tab #person>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">person</mat-icon>
+        Perfil
+      </ng-template>
+      <ng-template matTabContent>
+        <app-my-profile></app-my-profile>
+      </ng-template>
+    </mat-tab>
+    <mat-tab #books>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">book</mat-icon>
+        Livros
+      </ng-template>
+      <app-book-list></app-book-list>
+    </mat-tab>
+    <mat-tab #news>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">speaker_notes</mat-icon>
+        Notícias
+      </ng-template>
+      <ng-template matTabContent>
+          <app-notice-list></app-notice-list>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+  
