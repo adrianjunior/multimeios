@@ -4,6 +4,7 @@ import { Book } from '../../models/book.model';
 import { Subject } from 'rxjs/Subject';
 
 import 'rxjs/add/operator/map'
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +17,16 @@ export class BooksService {
   booksChanged = new Subject<Book[]>();
   bookChanged = new Subject<Book>();
 
-  constructor(private db: AngularFirestore) {}
+  constructor(private db: AngularFirestore, private snackBar: MatSnackBar) {}
 
   //Create
   addBook(book: Book) {
     this.db
       .collection('books')
-      .add(book);
+      .add(book)
+      .then(res => {
+        this.openSnackBar('Livro Cadastrado com sucesso!', 'OK')
+      });
   }
 
   //Read
@@ -78,4 +82,10 @@ export class BooksService {
     })
   }
 
+  //SnackBar
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
 }

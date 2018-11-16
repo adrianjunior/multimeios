@@ -1,3 +1,47 @@
-<p>
-  add-book works!
-</p>
+<section class="signin-form" fxLayoutAlign="center" fxLayoutGap="15px" style="margin-top: 5vh;">
+  <mat-card fxFlex="600px" class="add-card">
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #f="ngForm" (ngSubmit)="addBook(f)">
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Título do Livro" ngModel name="title" required #bnInput="ngModel">
+        <mat-error *ngIf="bnInput.hasError('required')">Você deve colocar o título do livro.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Autor do Livro" ngModel name="author" required #bdInput="ngModel">
+        <mat-error *ngIf="bdInput.hasError('required')">Você deve colocar um autor.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Editora do Livro" ngModel name="editor">
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <mat-select placeholder="Categoria do Livro" required name="category" ngModel #bgInput="ngModel">
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{category}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="bgInput.hasError('required')">Você deve colocar uma Categoria.</mat-error>
+      </mat-form-field>
+
+      <div style="width: 400px;" fxLayout fxLayoutGap="20px">
+
+        <mat-form-field class="h-input">
+          <input type="text" matInput placeholder="Edição do Livro" ngModel name="edition">
+        </mat-form-field>
+
+        <mat-form-field class="h-input">
+          <input type="number" matInput placeholder="Ano da Edição" ngModel name="year">
+        </mat-form-field>
+
+        <mat-form-field class="h-input">
+          <input type="number" matInput placeholder="Nº de Exemplares" ngModel name="quantity" required #bnInput="ngModel">
+          <mat-error *ngIf="bdInput.hasError('required')">Você deve colocar o nº de exemplares.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Cadastrar</button>
+    </form>    
+  </mat-card>
+</section>

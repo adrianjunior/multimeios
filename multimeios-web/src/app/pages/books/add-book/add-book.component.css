@@ -1,0 +1,26 @@
+.v-input {
+    width: 400px;
+}
+
+.h-input {
+    width: 120px;
+}
+
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+
+.add-card {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
