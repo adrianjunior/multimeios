@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$books-app-primary: mat-palette($mat-deep-purple, 500);
+$books-app-accent:  mat-palette($mat-deep-purple, 900);
+$app-warn: mat-palette($mat-red);
+$books-app-theme: mat-light-theme($books-app-primary, $books-app-accent, $app-warn);
+
+@include angular-material-theme($books-app-theme);
+
+html, body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
