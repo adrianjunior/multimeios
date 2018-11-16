@@ -26,4 +26,30 @@
     <br/>
   </div>
 </div>
+<br><br>
+<div style="display: flex; flex-direction: column; width: 20%">
+  <button (click)="addNotice(noticeNumber)">Adicionar Notícia</button>
+  <button (click)="getNotices()">Mostrar Notícias</button>
+  <div *ngIf="currentNotice != null">
+    <h2> Notícia Aberta</h2>
+    <button (click)="editNotice(currentNotice.id)">Editar esta Notícia</button>
+    <p>Título: {{currentNotice.title}}</p>
+    <p>Descrição: {{currentNotice.description}}</p>
+    <p>Data: {{currentNotice.date}}</p>
+    <p>Categoria: {{currentNotice.categories}}</p>
+  </div>
+</div>
+<h2>Lista de Notícias</h2>
+<div style="display: flex; flex-direction: row; flex-wrap: wrap">
+  <div *ngFor="let notice of notices" style="padding: 10px;">
+    <button (click)="deleteNotice(notice.id)">Deletar esta Notícia</button>
+    <button (click)="getNotice(notice.id)">Abrir esta Notícia</button>
+    <p>Título: {{notice.title}}</p>
+    <p>Descrição: {{notice.description}}</p>
+    <p>Data: {{notice.date}}</p>
+    <p>Categoria: {{notice.categories}}</p>
+    <br/>
+  </div>
+</div>
+
 
