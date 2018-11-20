@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 
 import 'rxjs/add/operator/map'
 import { MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class BooksService {
 
   booksChanged = new Subject<Book[]>();
   bookChanged = new Subject<Book>();
+
+  private subs: Subscription[] = [];
 
   constructor(private db: AngularFirestore, private snackBar: MatSnackBar) {}
 
@@ -31,7 +34,7 @@ export class BooksService {
 
   //Read
   getBook(id: string) {
-    this.db
+    this.subs.push(this.db
       .collection('books')
       .doc(id)
       .snapshotChanges()
@@ -45,6 +48,7 @@ export class BooksService {
         this.book = book;
         this.bookChanged.next(this.book)
       })
+    );
   }
 
   //Update
@@ -65,21 +69,27 @@ export class BooksService {
 
   //Read List
   getBooks() {
-    this.db
-    .collection('books')
-    .snapshotChanges()
-    .map(docArray => {
-      return docArray.map(doc => {
-        return {
-          id: doc.payload.doc.id,
-          ...doc.payload.doc.data()
-        } as Book;
-      });
-    })
-    .subscribe((books: Book[]) => {
-      this.books = books;
-      this.booksChanged.next([...this.books])
-    })
+    this.subs.push(
+      this.db
+        .collection('books')
+        .snapshotChanges()
+        .map(docArray => {
+          return docArray.map(doc => {
+            return {
+              id: doc.payload.doc.id,
+              ...doc.payload.doc.data()
+            } as Book;
+          });
+        })
+        .subscribe((books: Book[]) => {
+          this.books = books;
+          this.booksChanged.next([...this.books])
+        })
+    );
+  }
+
+  cancelSubscriptions() {
+    this.subs.forEach(sub => sub.unsubscribe());
   }
 
   //SnackBar

@@ -28,6 +28,8 @@ import { BorrowBookComponent } from './pages/books/borrow-book/borrow-book.compo
 import { ReturnBookComponent } from './pages/books/return-book/return-book.component';
 import { LogListComponent } from './pages/logs/log-list/log-list.component';
 import { BookDonationComponent } from './pages/books/book-donation/book-donation.component';
+import { BookProfileComponent } from './pages/books/book-profile/book-profile.component';
+import { HeaderComponent } from './components/nav/header/header.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { BookDonationComponent } from './pages/books/book-donation/book-donation
     ReturnBookComponent,
     LogListComponent,
     BookDonationComponent,
+    BookProfileComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
