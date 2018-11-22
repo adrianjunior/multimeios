@@ -1,4 +1,4 @@
-<mat-toolbar class="toolbar mat-elevation-z4">
+<mat-toolbar *ngIf="isAuth == true" class="toolbar mat-elevation-z4">
     <div class="toolbar-menu" fxLayout fxLayoutAlign="center">
         <h1 class="toolbar-header">Menu</h1>
     </div>
@@ -7,7 +7,7 @@
     </div>
 </mat-toolbar>
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav opened mode="side" class="sidenav" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="32px">
+    <mat-sidenav *ngIf="isAuth == true" opened mode="side" class="sidenav" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="32px">
         <mat-list class="sidenav-list">
             <div fxLayout fxLayoutAlign="center center" class="sidenav-subheader-container">
                 <h3 class="sidnav-subheader">Livros</h3>
@@ -52,6 +52,9 @@
                 <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-noticias', 'Lista de Notícias')">
                     Lista de Notícias
                 </div>
+            </div>
+            <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="logout()">
+                Sair
             </div>
         </mat-list>
     </mat-sidenav>

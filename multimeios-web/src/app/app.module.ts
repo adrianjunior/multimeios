@@ -29,7 +29,7 @@ import { ReturnBookComponent } from './pages/books/return-book/return-book.compo
 import { LogListComponent } from './pages/logs/log-list/log-list.component';
 import { BookDonationComponent } from './pages/books/book-donation/book-donation.component';
 import { BookProfileComponent } from './pages/books/book-profile/book-profile.component';
-import { HeaderComponent } from './components/nav/header/header.component';
+import { NavDrawerComponent } from './components/nav-drawer/nav-drawer.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,7 @@ import { HeaderComponent } from './components/nav/header/header.component';
     LogListComponent,
     BookDonationComponent,
     BookProfileComponent,
-    HeaderComponent,
+    NavDrawerComponent,
   ],
   imports: [
     BrowserModule,

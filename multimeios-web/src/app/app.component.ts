@@ -11,14 +11,20 @@ export class AppComponent implements OnInit {
   title = 'Lista de Livros';
   primary = 'rgba(104, 58, 183, 0.3)';
 
+  isAuth: boolean = false;
+
   constructor(private router: Router, private authService: AuthService){};
 
   ngOnInit() {
     this.authService.initAuthListener();
+    this.authService.authChange.subscribe(authStatus => {
+      this.isAuth = authStatus;
+    });
   }
 
-  changePage(route: string, title: string) {
-    this.title = title;
-    this.router.navigateByUrl(route);
+  //CHANGE PAGE
+
+  logout() {
+    this.authService.logout()
   }
 }

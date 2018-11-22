@@ -1,10 +1,29 @@
 .login-container {
     height: 100%;
     width: 100%;
-    border: 1px solid red;
 }
 
 .login-card {
-    height: 50%;
+    width: 30%;
+}
+
+.form {
+    width: 90%;
+    padding-right: 16px;
+    padding-left: 16px;
+}
+
+.buttons-container {
+    width: 90%;
+    padding-right: 16px;
+    padding-left: 16px;
+}
+
+.form-button, .recover-button {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.spinner-container {
     width: 30%;
 }
