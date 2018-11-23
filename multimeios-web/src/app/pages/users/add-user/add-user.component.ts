@@ -36,7 +36,8 @@ export class AddUserComponent implements OnInit {
     this.user = {
       name: form.value.name,
       class: form.value.class,
-      email: form.value.email
+      email: form.value.email,
+      type: 2
     };
     this.usersService.addUser(this.user, form.value.password, true);
   }

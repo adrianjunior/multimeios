@@ -1,7 +1,10 @@
 <div class="login-container" fxLayout="column" fxLayoutAlign="center center">
-  <mat-spinner *ngIf="loading == true" ></mat-spinner>
+  <div *ngIf="loading == true" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
+      <mat-spinner color="background-color"></mat-spinner>
+      <h1 class="login-text">Carregando...</h1>
+  </div>
   <mat-card *ngIf="loading == false" class="login-card" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="16px">
-    <img class="logo-image" mat-card-image src="https://via.placeholder.com/500x250">
+    <img class="logo-image" mat-card-image src="./../../../../assets/logo.png">
     <form fxLayout="column" class="form" #f="ngForm" (ngSubmit)="login(f)">
       <mat-form-field>
         <input matInput type="email" placeholder="Email" ngModel name="email" required #eInput="ngModel">

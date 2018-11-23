@@ -2,8 +2,12 @@
     <div class="toolbar-menu" fxLayout fxLayoutAlign="center">
         <h1 class="toolbar-header">Menu</h1>
     </div>
-    <div class="toolbar-title" fxLayout fxLayoutAlign="center">
+    <div class="toolbar-title" fxLayout fxLayoutAlign="space-between center">
         <h1 class="toolbar-header">{{title}}</h1>
+        <div class="logged-as" fxLayout fxLayoutAlign="space-between center">
+            <p>Logado como: {{currentUser.name}}</p>
+            <button mat-button (click)="logout()">Sair</button>
+        </div>
     </div>
 </mat-toolbar>
 <mat-sidenav-container class="sidenav-container">

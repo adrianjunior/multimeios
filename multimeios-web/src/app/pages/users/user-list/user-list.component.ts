@@ -20,7 +20,8 @@ export class UserListComponent implements OnInit {
   user: User = {
     name: '',
     class: '',
-    email: ''
+    email: '',
+    type: 0,
   };
   usersSubscription: Subscription;
   users: User[];

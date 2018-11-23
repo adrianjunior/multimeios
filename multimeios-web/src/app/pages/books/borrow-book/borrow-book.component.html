@@ -1,3 +1,84 @@
-<p>
-  borrow-book works!
-</p>
+<mat-drawer-container class="drawer-container" *ngIf="currentUser.type < 2">
+  <mat-drawer position="end" #drawer mode="over" class="drawer">
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+      <mat-card-title>Informações do Livro</mat-card-title>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Título do Livro" readonly value="{{book.title}}">
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Autor do Livro" readonly value="{{book.author}}">
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Editora do Livro" readonly value="{{book.editor}}">
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Gêneros" readonly value="{{book.gender}}">
+      </mat-form-field>
+
+      <div style="width: 400px;" fxLayout fxLayoutGap="20px" fxFlexAlign="center">
+
+        <mat-form-field class="h-input">
+          <input type="number" matInput placeholder="Ano da Edição" readonly value="{{book.year}}">
+        </mat-form-field>
+
+        <mat-form-field class="h-input">
+          <input type="text" matInput placeholder="Edição" readonly value="{{book.edition}}">
+        </mat-form-field>
+
+        <mat-form-field class="h-input">
+          <input type="number" matInput placeholder="Nº de Exemplares" readonly value="{{book.quantity}}">
+        </mat-form-field>
+
+        <mat-form-field class="h-input">
+          <input type="number" matInput placeholder="Disponíveis" readonly value="{{book.available}}">
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="primary" [disabled]="1 == 1">Editar Livro</button>
+    </form>    
+  </mat-drawer>
+  <div class="container mat-elevation-z4" style="margin-top: 5vh;">
+    <div class="header mat-elevation-z2">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Pesquisar">
+      </mat-form-field>
+    </div>
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Título </mat-header-cell>
+        <mat-cell *matCellDef="let book"> {{book.title}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="author">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Autor </mat-header-cell>
+        <mat-cell *matCellDef="let book"> {{book.author}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="gender">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Categoria </mat-header-cell>
+        <mat-cell *matCellDef="let book"> {{book.category}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="available">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Disponíveis </mat-header-cell>
+        <mat-cell *matCellDef="let book"> {{book.available | number}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let book; columns: displayedColumns;" matRipple [matRippleColor]="ripple" class="row" (click)="toggleSidenav(book)">
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [pageSize]="6" [showFirstLastButtons]="true">
+    </mat-paginator>
+  </div>
+</mat-drawer-container>
+<div *ngIf="currentUser.type == 2" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" class="user-error-content">
+    <h1>Você não é um funcionário ou Regente do Multimeios.</h1>
+    <button mat-raised-button (click)="logout">Sair</button>
+</div>

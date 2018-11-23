@@ -14,11 +14,11 @@ export class AuthService {
   authChange = new Subject<boolean>();
   isLoading = new Subject<boolean>();
 
-  constructor(private router: Router, private afAuth: AngularFireAuth, private booksService: BooksService,
+  constructor(private router: Router, private authentication: AngularFireAuth, private booksService: BooksService,
               private snackBar: MatSnackBar) { }
 
   initAuthListener() {
-    this.afAuth.authState.subscribe(user => {
+    this.authentication.authState.subscribe(user => {
       if (user) {
         this.isAuthenticated = true;
         this.authChange.next(true);
@@ -36,26 +36,28 @@ export class AuthService {
     return this.isAuthenticated;
   }
 
+
   login(email: string, password: string) {
     this.isLoading.next(true);
-    this.afAuth.auth.signInWithEmailAndPassword(email, password)
+    this.authentication.auth.signInWithEmailAndPassword(email, password)
       .then(res => {
         this.isLoading.next(false);
       })
       .catch(err => {
-        this.openSnackBar(err, 'Ok');
+        this.openSnackBar(err, 'OK');
         this.isLoading.next(false);
       });
   }
 
   logout() {
-    this.afAuth.auth.signOut()
+    this.authentication.auth.signOut()
   }
 
   //SnackBar
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 3000,
+      panelClass: ['snackbar']
     });
   }
 }

@@ -1,6 +1,8 @@
 .login-container {
     height: 100%;
     width: 100%;
+    background: linear-gradient(rgba(104, 58, 183, 0.8), rgba(104, 58, 183, 0.8)),
+                url("./../../../../assets/login-bg.png") no-repeat center center fixed;
 }
 
 .login-card {
@@ -26,4 +28,8 @@
 
 .spinner-container {
     width: 30%;
+}
+
+.spinner .login-text{
+    color: #fff;
 }

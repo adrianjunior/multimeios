@@ -23,11 +23,12 @@ export class UsersService {
   //Create
   addUser(user: User, password: string, isStudent: boolean) {
     if(isStudent) {
-      this.authentication.auth.createUserWithEmailAndPassword(user.email, password)
-      .then(res => {
+      this.authentication.auth.createUserAndRetrieveDataWithEmailAndPassword(user.email, password)
+      .then(data => {
         this.db
           .collection('users')
-          .add(user)
+          .doc(data.user.uid)
+          .set(user)
           .then(res => {
             this.openSnackBar('Usuário Cadastrado com sucesso!', 'OK')
           });
@@ -89,6 +90,10 @@ export class UsersService {
       this.users = users;
       this.usersChanged.next([...this.users])
     })
+  }
+
+  getCurrentUser() {
+    return this.authentication.auth.currentUser;
   }
 
   //SnackBar

@@ -130,6 +130,7 @@ export class DbTestComponent implements OnInit {
       name: 'Nome do Usuário ' + num,
       class: 'Nome da Classe ' + num,
       email: `aluno${num}@email.com`,
+      type: 2
     }
     if(num%2 == 0) {
       isStudent = true;
@@ -165,7 +166,8 @@ export class DbTestComponent implements OnInit {
     const employee: Employee = {
       name: 'Nome do Funcionário ' + num,
       email: `funcionario${num}@email.com`,
-      phone: 'Telefone do Funcionário ' + num
+      phone: 'Telefone do Funcionário ' + num,
+      type: 1
     }
     this.employeeService.addEmployee(employee, `password${num}`);
   }
