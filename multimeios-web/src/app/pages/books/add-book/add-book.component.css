@@ -1,9 +1,9 @@
 .v-input {
-    width: 400px;
+    width: 510px;
 }
 
 .h-input {
-    width: 120px;
+    width: 160px;
 }
 
 #overlay {
@@ -23,4 +23,13 @@
 .add-card {
     padding-top: 32px;
     padding-bottom: 32px;
+}
+
+.title-bar {
+    height: 72px;
+}
+
+.title {
+    margin: 0;
+    color: rgba(104, 58, 183, 0.8);
 }

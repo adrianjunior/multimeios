@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 
 import 'rxjs/add/operator/map'
 import { AngularFireAuth } from '@angular/fire/auth';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +18,19 @@ export class EmployeesService {
   employeesChanged = new Subject<Employee[]>();
   employeeChanged = new Subject<Employee>();
 
-  constructor(private db: AngularFirestore, private authentication: AngularFireAuth) {}
+  constructor(private db: AngularFirestore, private authentication: AngularFireAuth, private snackBar: MatSnackBar) {}
 
   //Create
   addEmployee(employee: Employee, password: string) {
-    this.authentication.auth.createUserWithEmailAndPassword(employee.email, password)
-      .then(res => {
+    this.authentication.auth.createUserAndRetrieveDataWithEmailAndPassword(employee.email, password)
+      .then(data => {
         this.db
           .collection('employees')
-          .add(employee);
+          .doc(data.user.uid)
+          .set(employee)
+          .then(res => {
+            this.openSnackBar('Funcionário Cadastrado com sucesso!', 'OK')
+          });
       })
       .catch(err => {
         console.log(err);
@@ -83,6 +88,17 @@ export class EmployeesService {
       this.employees = employees;
       this.employeesChanged.next([...this.employees])
     })
+  }
+
+  getCurrentEmployee() {
+    return this.authentication.auth.currentUser;
+  }
+
+  //SnackBar
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+    });
   }
 
 }

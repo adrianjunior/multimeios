@@ -5,7 +5,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule, AngularFireAuth } from '@angular/fire/auth';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -63,6 +64,7 @@ import { NavDrawerComponent } from './components/nav-drawer/nav-drawer.component
     AngularFireAuthModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule
   ],
   providers: [

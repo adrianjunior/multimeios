@@ -1,13 +1,14 @@
 import { Subscription } from 'rxjs';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatTableDataSource, MatSort, MatPaginator, MatDrawer } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDrawer, MatStepper, MatSnackBar } from '@angular/material';
 
 import { Book } from '../../../models/book.model';
-import books from '../../../models/books';
 import { BooksService } from '../../../services/books/books.service';
 import { User } from 'src/app/models/user.model';
-import { UsersService } from 'src/app/services/users/users.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { EmployeesService } from '../../../services/employees/employees.service';
+import { UsersService } from '../../../services/users/users.service';
 
 @Component({
   selector: 'app-borrow-book',
@@ -15,10 +16,6 @@ import { UsersService } from 'src/app/services/users/users.service';
   styleUrls: ['./borrow-book.component.css']
 })
 export class BorrowBookComponent implements OnInit {
-
-  userId: string;
-  userSubscription: Subscription;
-  currentUser: User;
 
   ripple: string = 'rgba(104, 58, 183, 0.4)';
   book: Book = {
@@ -30,15 +27,23 @@ export class BorrowBookComponent implements OnInit {
   };
   booksSubscription: Subscription;
   books: Book[];
+  userSubscription: Subscription;
+  user: User[];
 
   displayedColumns = ['title', 'author', 'gender', 'available'];
   dataSource = new MatTableDataSource<Book>();
 
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatDrawer) drawer: MatDrawer;
+  @ViewChild(MatStepper) stepper: MatStepper;
 
-  constructor(private router: Router, private bookService: BooksService, private userService: UsersService) {}
+  constructor(private router: Router, private bookService: BooksService,
+              private employeesService: EmployeesService, private _formBuilder: FormBuilder,
+              private usersService: UsersService, private snackBar: MatSnackBar) {}
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -47,9 +52,6 @@ export class BorrowBookComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userId = this.userService.getCurrentUser().uid;
-    this.userSubscription = this.userService.userChanged.subscribe(user => (this.currentUser = user));
-    this.userService.getUser(this.userId);
     this.booksSubscription = this.bookService.booksChanged.subscribe(books => {
       this.books = books;
       this.dataSource.data = this.books.filter(book => {
@@ -57,6 +59,9 @@ export class BorrowBookComponent implements OnInit {
       });
     });
     this.bookService.getBooks();
+    this.firstFormGroup = this._formBuilder.group({
+      userEmail: ['', Validators.required]
+    });
   }
 
   ngAfterViewInit() {
@@ -64,9 +69,32 @@ export class BorrowBookComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  toggleSidenav(book: Book) {
-    this.drawer.toggle();
+  openSidenav(book: Book) {
+    this.drawer.open();
     this.book = book;
+  }
+
+  closeSidenav() {
+    this.drawer.close();
+  }
+
+  getUserByEmail(val: any) {
+    this.userSubscription = this.usersService.userByEmailChanged.subscribe(user => {
+      this.user = user;
+      if(this.user[0].id != null) {
+        this.stepper.next();
+      } else {
+        this.openSnackBar('Não há usuário cadastrado com este email', 'OK');
+      }
+    });
+    this.usersService.getUserByEmail(val.userEmail);
+  }
+
+  //SnackBar
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 6000,
+    });
   }
 
 }

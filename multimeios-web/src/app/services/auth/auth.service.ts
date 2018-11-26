@@ -18,8 +18,11 @@ export class AuthService {
               private snackBar: MatSnackBar) { }
 
   initAuthListener() {
+    console.log('entrou 2')
     this.authentication.authState.subscribe(user => {
+      console.log('entrou 3')
       if (user) {
+        console.log('entrou 4')
         this.isAuthenticated = true;
         this.authChange.next(true);
         this.router.navigate(['/alugar-livro']);

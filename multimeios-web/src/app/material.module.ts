@@ -5,7 +5,7 @@ import { MatButtonModule, MatIconModule, MatFormFieldModule,
          MatTableModule, MatGridListModule, MatStepperModule,
          MatSortModule, MatPaginatorModule, MatSnackBarModule,
          MatProgressSpinnerModule, MatMenuModule, MatDialogModule,
-         MatTabsModule, MatRippleModule
+         MatTabsModule, MatRippleModule, MatExpansionModule
         } from '@angular/material';
 
 @NgModule({
@@ -15,14 +15,14 @@ import { MatButtonModule, MatIconModule, MatFormFieldModule,
               MatTableModule, MatGridListModule, MatStepperModule,
               MatSortModule, MatPaginatorModule, MatSnackBarModule,
               MatProgressSpinnerModule, MatMenuModule, MatDialogModule,
-              MatTabsModule, MatRippleModule],
+              MatTabsModule, MatRippleModule, MatExpansionModule],
     exports: [MatButtonModule, MatIconModule, MatFormFieldModule,
               MatInputModule, MatSidenavModule, MatToolbarModule,
               MatListModule, MatCardModule, MatSelectModule,
               MatTableModule, MatGridListModule, MatStepperModule,
               MatSortModule, MatPaginatorModule, MatSnackBarModule,
               MatProgressSpinnerModule, MatMenuModule, MatDialogModule,
-              MatTabsModule, MatRippleModule], 
+              MatTabsModule, MatRippleModule, MatExpansionModule], 
 })
 
 export class MaterialModule {}

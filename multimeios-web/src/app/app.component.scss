@@ -33,7 +33,6 @@
 
 .sidenav-subheader-container {
     width: 100%;
-    height: 40px;
     background-color: rgba(104, 58, 183, 0.4);
 }
 
@@ -52,12 +51,20 @@
     width: 15vw;   
 }
 
-.toolbar-title {
-    width: 85vw;
+.toolbar-logo {
+    width: auto;
+    height: 72px;
 }
 
-.toolbar-header {
-    font-size: 1.3em;
-    color:white;
+.toolbar-text {
+    color: white;
 }
 
+.toolbar-btn {
+    color: white;
+}
+
+mat-icon {
+    margin-top: 16px;
+    margin-right: 8px;
+}

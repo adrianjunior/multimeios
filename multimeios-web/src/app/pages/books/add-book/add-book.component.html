@@ -1,5 +1,8 @@
-<section class="signin-form" fxLayoutAlign="center" fxLayoutGap="15px" style="margin-top: 5vh;">
-  <mat-card fxFlex="600px" class="add-card">
+<div class="title-bar" fxLayout fxLayoutAlign="center center">
+  <h1 class="title">Alugar Livro</h1>
+</div>
+<section class="signin-form" fxLayoutAlign="center" fxLayoutGap="15px">
+  <mat-card fxFlex="600px" class="add-card  mat-elevation-z4">
     <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #f="ngForm" (ngSubmit)="addBook(f)">
 
       <mat-form-field class="v-input">
@@ -25,7 +28,7 @@
         <mat-error *ngIf="bgInput.hasError('required')">Você deve colocar uma Categoria.</mat-error>
       </mat-form-field>
 
-      <div style="width: 400px;" fxLayout fxLayoutGap="20px">
+      <div class="v-input" fxLayout fxLayoutGap="15px">
 
         <mat-form-field class="h-input">
           <input type="text" matInput placeholder="Edição do Livro" ngModel name="edition">
@@ -41,7 +44,7 @@
         </mat-form-field>
       </div>
 
-      <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Cadastrar</button>
+      <button type="submit" class="v-input" mat-raised-button color="primary" [disabled]="f.invalid">Cadastrar</button>
     </form>    
   </mat-card>
 </section>

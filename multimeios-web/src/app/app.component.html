@@ -1,66 +1,91 @@
-<mat-toolbar *ngIf="isAuth == true" class="toolbar mat-elevation-z4">
-    <div class="toolbar-menu" fxLayout fxLayoutAlign="center">
-        <h1 class="toolbar-header">Menu</h1>
-    </div>
-    <div class="toolbar-title" fxLayout fxLayoutAlign="space-between center">
-        <h1 class="toolbar-header">{{title}}</h1>
-        <div class="logged-as" fxLayout fxLayoutAlign="space-between center">
-            <p>Logado como: {{currentUser.name}}</p>
-            <button mat-button (click)="logout()">Sair</button>
-        </div>
-    </div>
-</mat-toolbar>
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav *ngIf="isAuth == true" opened mode="side" class="sidenav" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="32px">
-        <mat-list class="sidenav-list">
-            <div fxLayout fxLayoutAlign="center center" class="sidenav-subheader-container">
-                <h3 class="sidnav-subheader">Livros</h3>
+        <mat-toolbar *ngIf="isAuth == true" class="toolbar mat-elevation-z4">
+            <div class="toolbar-menu" fxLayout fxLayoutAlign="center">
+                <img class="toolbar-logo" src="./../assets/logo_branca.png">
             </div>
-            <mat-divider></mat-divider>
-            <div class="button-container">
-                <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-livro', 'Cadastrar Livro')">
-                    Cadastrar Livro
+        </mat-toolbar>
+        <mat-accordion class="sidenav-list" [displayMode]="flat">
+            <mat-expansion-panel class="sidenav-subheader-container">
+                <mat-expansion-panel-header fxLayout>
+                    <mat-icon>book</mat-icon>
+                    <h3 class="sidnav-subheader">Livros</h3>
+                </mat-expansion-panel-header>
+                <div class="button-container">
+                    <div class="sidenav-button"  matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-livro')">
+                        <b>Cadastrar Livro</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-livros')">
+                        <b>Lista de Livros</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('alugar-livro')">
+                        <b>Alugar Livro</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('devolver-livro')">
+                        <b>Devolver Livro</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('devolver-livro')">
+                        <b>Doação de Livros</b>
+                    </div>
                 </div>
-                <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-livros', 'Lista de Livros')">
-                    Lista de Livros
+            </mat-expansion-panel>
+            <mat-expansion-panel class="sidenav-subheader-container">
+                <mat-expansion-panel-header fxLayout>
+                    <mat-icon>person</mat-icon>
+                    <h3 class="sidnav-subheader">Usuários</h3>
+                </mat-expansion-panel-header>
+                <div class="button-container">
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-livro')">
+                        <b>Cadastrar Usuário</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-livros')">
+                        <b>Lista de Usuários</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-livros')">
+                        <b>Ranking dos Alunos</b>
+                    </div>
                 </div>
-                <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('alugar-livro', 'Alugar Livro')">
-                    Alugar Livro
+            </mat-expansion-panel>
+            <mat-expansion-panel class="sidenav-subheader-container">
+                <mat-expansion-panel-header>
+                    <mat-icon>speaker_notes</mat-icon>
+                    <h3 class="sidnav-subheader">Notícias</h3>
+                </mat-expansion-panel-header>
+                <div class="button-container">
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-livro')">
+                        <b>Cadastrar Notícia</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-livros')">
+                        <b>Lista de Notícias</b>
+                    </div>
                 </div>
-                <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('devolver-livro', 'Devolver Livro')">
-                    Devolver Livro
+            </mat-expansion-panel>
+            <mat-expansion-panel class="sidenav-subheader-container">
+                <mat-expansion-panel-header>
+                    <mat-icon>face</mat-icon>
+                    <h3 class="sidnav-subheader">Funcionários</h3>
+                </mat-expansion-panel-header>
+                <div class="button-container">
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-livro')">
+                        <b>Cadastrar Funcionário</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-livros')">
+                        <b>Lista de Funcionários</b>
+                    </div>
                 </div>
-            </div>
-            <mat-divider></mat-divider>
-            <div fxLayout fxLayoutAlign="center center" class="sidenav-subheader-container">
-                <h3 class="sidnav-subheader">Usuários</h3>
-            </div>
-            <mat-divider></mat-divider>
-            <div class="button-container" >
-                <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-usuario', 'Cadastrar Usuário')"> 
-                    Cadastrar Usuário
+            </mat-expansion-panel>
+            <mat-expansion-panel class="sidenav-subheader-container">
+                <mat-expansion-panel-header>
+                    <mat-icon>settings</mat-icon>
+                    <h3 class="sidnav-subheader">Opções</h3>
+                </mat-expansion-panel-header>
+                <div class="button-container">
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="logout()">
+                        <b>Sair</b>
+                    </div>
                 </div>
-                <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-usuarios', 'Lista de Usuários')">
-                    Lista de Usuários
-                </div>
-            </div>
-            <mat-divider></mat-divider>
-            <div fxLayout fxLayoutAlign="center center" class="sidenav-subheader-container">
-                <h3 class="sidnav-subheader">Notícias</h3>
-            </div>
-            <mat-divider></mat-divider>
-            <div class="button-container">
-                <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-noticia', 'Cadastrar Notícia')">
-                    Cadastrar Notícia
-                </div>
-                <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-noticias', 'Lista de Notícias')">
-                    Lista de Notícias
-                </div>
-            </div>
-            <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="logout()">
-                Sair
-            </div>
-        </mat-list>
+            </mat-expansion-panel>
+        </mat-accordion>
     </mat-sidenav>
     <router-outlet></router-outlet>
 </mat-sidenav-container>

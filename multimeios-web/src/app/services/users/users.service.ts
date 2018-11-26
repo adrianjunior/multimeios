@@ -14,9 +14,11 @@ export class UsersService {
 
   users: User[];
   user: User;
+  userByEmail: User[];
 
   usersChanged = new Subject<User[]>();
   userChanged = new Subject<User>();
+  userByEmailChanged = new Subject<User[]>();
 
   constructor(private db: AngularFirestore, private authentication: AngularFireAuth, private snackBar: MatSnackBar) { }
 
@@ -92,8 +94,22 @@ export class UsersService {
     })
   }
 
-  getCurrentUser() {
-    return this.authentication.auth.currentUser;
+  getUserByEmail(userEmail: string) {
+    this.db
+      .collection('users', ref => ref.where('email', '==', userEmail))
+      .snapshotChanges()
+      .map(docArray => {
+        return docArray.map(doc => {
+          return {
+            id: doc.payload.doc.id,
+            ...doc.payload.doc.data()
+          } as User;
+        });
+      })
+      .subscribe((users: User[]) => {
+        this.userByEmail = users;
+        this.userByEmailChanged.next([...this.users])
+      })
   }
 
   //SnackBar

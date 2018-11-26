@@ -3,8 +3,9 @@ import { Router, RouteConfigLoadEnd } from '@angular/router';
 
 import { AuthService } from './services/auth/auth.service';
 import { User } from 'src/app/models/user.model';
-import { UsersService } from 'src/app/services/users/users.service';
 import { Subscription } from 'rxjs';
+import { EmployeesService } from './services/employees/employees.service';
+import { Employee } from './models/employee.model';
 
 @Component({
   selector: 'app-root',
@@ -16,23 +17,27 @@ export class AppComponent implements OnInit {
   primary = 'rgba(104, 58, 183, 0.3)';
 
   isAuth: boolean = false;
-  userId: string;
-  userSubscription: Subscription;
-  currentUser: User;
+  employeeId: string;
+  employeeSubscription: Subscription;
+  currentEmployee: Employee = {
+    name: '',
+    email: '',
+    type: -1
+  };
 
-  constructor(private router: Router, private authService: AuthService, private userService: UsersService){};
+  constructor(private router: Router, private authService: AuthService, private employeesService: EmployeesService){};
 
   ngOnInit() {
-    this.userId = this.userService.getCurrentUser().uid;
-    this.userSubscription = this.userService.userChanged.subscribe(user => (this.currentUser = user));
-    this.userService.getUser(this.userId);
+    console.log('onInit')
     this.authService.initAuthListener();
     this.authService.authChange.subscribe(authStatus => {
       this.isAuth = authStatus;
     });
   }
 
-  //CHANGE PAGE
+  changePage(link: string) {
+    this.router.navigateByUrl(link);
+  }
 
   logout() {
     this.authService.logout()
