@@ -30,7 +30,9 @@ import { ReturnBookComponent } from './pages/books/return-book/return-book.compo
 import { LogListComponent } from './pages/logs/log-list/log-list.component';
 import { BookDonationComponent } from './pages/books/book-donation/book-donation.component';
 import { BookProfileComponent } from './pages/books/book-profile/book-profile.component';
-import { NavDrawerComponent } from './components/nav-drawer/nav-drawer.component';
+import { ValidateUserEmailComponent } from './components/validate-user-email/validate-user-email.component';
+import { BorrowBookDialogComponent } from './components/borrow-book/borrow-book.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { NavDrawerComponent } from './components/nav-drawer/nav-drawer.component
     LogListComponent,
     BookDonationComponent,
     BookProfileComponent,
-    NavDrawerComponent,
+    ValidateUserEmailComponent,
+    BorrowBookDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -67,9 +70,14 @@ import { NavDrawerComponent } from './components/nav-drawer/nav-drawer.component
     ReactiveFormsModule,
     FlexLayoutModule
   ],
+  entryComponents: [
+    ValidateUserEmailComponent,
+    BorrowBookDialogComponent
+  ],
   providers: [
     AngularFirestore,
-    AngularFireAuth
+    AngularFireAuth,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
   ],
   bootstrap: [AppComponent]
 })

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NavDrawerComponent } from './nav-drawer.component';
+import { BorrowBookComponent } from './borrow-book.component';
 
-describe('NavDrawerComponent', () => {
-  let component: NavDrawerComponent;
-  let fixture: ComponentFixture<NavDrawerComponent>;
+describe('BorrowBookComponent', () => {
+  let component: BorrowBookComponent;
+  let fixture: ComponentFixture<BorrowBookComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavDrawerComponent ]
+      declarations: [ BorrowBookComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NavDrawerComponent);
+    fixture = TestBed.createComponent(BorrowBookComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

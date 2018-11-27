@@ -3,9 +3,11 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '../../models/user.model';
 import { Subject } from 'rxjs/Subject';
 
+import 'rxjs/add/operator/take'
 import 'rxjs/add/operator/map'
 import { AngularFireAuth } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,9 @@ export class UsersService {
 
   usersChanged = new Subject<User[]>();
   userChanged = new Subject<User>();
-  userByEmailChanged = new Subject<User[]>();
+  userByEmailChanged = new Subject<User>();
+
+  getUserByEmailSub = new Subscription;
 
   constructor(private db: AngularFirestore, private authentication: AngularFireAuth, private snackBar: MatSnackBar) { }
 
@@ -95,7 +99,7 @@ export class UsersService {
   }
 
   getUserByEmail(userEmail: string) {
-    this.db
+    this.getUserByEmailSub = this.db
       .collection('users', ref => ref.where('email', '==', userEmail))
       .snapshotChanges()
       .map(docArray => {
@@ -107,8 +111,13 @@ export class UsersService {
         });
       })
       .subscribe((users: User[]) => {
-        this.userByEmail = users;
-        this.userByEmailChanged.next([...this.users])
+        console.log(users);
+        if(users == []) {
+          this.userByEmailChanged.next(null)
+        } else {
+          this.userByEmailChanged.next(users[0])
+        }
+        this.getUserByEmailSub.unsubscribe();
       })
   }
 
