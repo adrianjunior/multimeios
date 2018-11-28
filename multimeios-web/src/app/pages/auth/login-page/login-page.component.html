@@ -1,8 +1,8 @@
 <div class="login-container" fxLayout="column" fxLayoutAlign="center center">
   <mat-card class="login-card mat-elevation-z4">
-    <div *ngIf="loading == true" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
+    <div *ngIf="loading == true" class="spinner-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="32px">
       <mat-spinner color="background-color"></mat-spinner>
-      <h1 class="login-text">Carregando...</h1>
+      <h1 class="spinner-text">Carregando...</h1>
     </div>
     <div *ngIf="loading == false" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="16px">
       <img class="logo-image" mat-card-image src="./../../../../assets/logo.png">

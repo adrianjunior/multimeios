@@ -1,0 +1,24 @@
+<div *ngIf="loading == true" class="spinner-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="32px">
+  <mat-spinner color="background-color"></mat-spinner>
+  <h1 class="spinner-text">Realizando Aluguel...</h1>
+</div>
+
+<div *ngIf="loading == false" fxLayout="column" fxLayoutAlign="center center">
+  <h1 class="title">Confirmar o Aluguel</h1>
+
+  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
+    <span><b>Confira os dados do aluguel e, caso esteja tudo correto, clique em confirmar.</b></span>
+
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <span>Título do Livro: <b>{{book.title}}</b></span>
+      <span>Autor do Livro: <b>{{book.author}}</b></span>
+      <span>Nome do Usuário: <b>{{user.name}}</b></span>
+      <span>Email do Usuário: <b>{{user.email}}</b></span>
+    </div> 
+  
+    <div fxLayout fxLayoutGap="20px" class="v-input">
+      <button mat-raised-button class="dialog-button" color="warn" (click)="previousDialog()">Voltar</button>
+      <button mat-raised-button class="dialog-button" color="primary" (click)="confirmBorrow()">Confirmar</button>
+    </div>
+  </div>
+</div>

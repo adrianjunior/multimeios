@@ -6,13 +6,13 @@ import * as moment from 'moment';
 import 'rxjs/add/operator/map'
 import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { UsersService } from '../users/users.service';
 import { User } from '../../models/user.model';
 import { Borrowing } from '../../models/borrowing.model';
 import { LogItem } from '../../models/logitem.model';
 import { Employee } from '../../models/employee.model';
 import { Class } from '../../models/class.model';
 import scoreSystem from '../../../assets/scoreSystem';
+import { EmployeesService } from '../employees/employees.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +24,15 @@ export class BooksService {
 
   booksChanged = new Subject<Book[]>();
   bookChanged = new Subject<Book>();
+  isLoading = new Subject<boolean>();
+  didBorrow = new Subject<boolean>();
 
-  userSubscription: Subscription; 
+  employeeSubscription: Subscription; 
 
   private subs: Subscription[] = [];
 
-  constructor(private db: AngularFirestore, private snackBar: MatSnackBar, private usersService: UsersService) {}
+  constructor(private db: AngularFirestore, private snackBar: MatSnackBar,
+              private employeesService: EmployeesService) {}
 
   //Create
   addBook(book: Book) {
@@ -101,38 +104,42 @@ export class BooksService {
     this.subs.forEach(sub => sub.unsubscribe());
   }
 
-  borrowBook(user: User, isStudent: boolean, book: Book, employee: Employee, clss: Class) {
+  borrowBook(user: User, isStudent: boolean, book: Book) {
+    this.isLoading.next(true)
     const now = moment();
     const borrowDate = now.locale('pt-br').format('L');
     const returnDate = now.add(15, 'days').locale('pt-br').format('L');
-    let borrowing: Borrowing = {
-      bookId: book.id,
-      bookTitle: book.title,
-      bookAuthor: book.author,
-      employeeId: employee.id,
-      employeeName: employee.name,
-      startDate: borrowDate,
-      endDate: returnDate,
-      isStudent: isStudent,
-      userId: user.id,
-      userName: user.name,
-      userEmail: user.email
-    };
-    this.addBorrowing(borrowing);
-    let logItem: LogItem = {
-      type: 'Aluguel de Livro',
-      date: borrowDate,
-      hour: now.locale('pt-br').format('LT'),
-      employeeName: employee.name,
-      bookTitle: book.title,
-      bookAuthor: book.author,
-      userName: user.name,
-      userEmail: user.email
-    }
-    this.addLogItem(logItem);
-    this.addPointsToStudent(user.id, user.score);
-    this.addPointsToClass(clss.id, clss.score);
-    this.subtractBook(book.id, book.available);
+    this.employeeSubscription = this.employeesService.employeeChanged.subscribe(employee => {
+      let borrowing: Borrowing = {
+        bookId: book.id,
+        bookTitle: book.title,
+        bookAuthor: book.author,
+        employeeId: employee.id,
+        employeeName: employee.name,
+        startDate: borrowDate,
+        endDate: returnDate,
+        isStudent: isStudent,
+        userId: user.id,
+        userName: user.name,
+        userEmail: user.email
+      };
+      console.log(borrowing)
+      this.addBorrowing(borrowing);
+      let logItem: LogItem = {
+        type: 'Aluguel de Livro',
+        date: borrowDate,
+        hour: now.locale('pt-br').format('LT'),
+        employeeName: employee.name,
+        bookTitle: book.title,
+        bookAuthor: book.author,
+        userName: user.name,
+        userEmail: user.email
+      }
+      console.log(logItem)
+      this.addLogItem(logItem);
+      this.subtractBook(book.id, book.available);
+    })
+    this.employeesService.getCurrentEmployee();
   }
 
   addBorrowing(borrowing: Borrowing) {
@@ -141,6 +148,7 @@ export class BooksService {
       .add(borrowing)
       .catch(err => {
         this.openSnackBar(err, 'OK');
+        this.isLoading.next(false);
       });
   }
 
@@ -150,31 +158,8 @@ export class BooksService {
       .add(logItem)
       .catch(err => {
         this.openSnackBar(err, 'OK');
+        this.isLoading.next(false);
       });
-  }
-
-  addPointsToStudent(studentId: string, studentScore: number) {
-    this.db
-      .collection('users')
-      .doc(studentId)
-      .update({
-        'score': studentScore + scoreSystem.borrow
-      })
-      .catch(err => {
-        this.openSnackBar(err, 'OK');
-      })
-  }
-
-  addPointsToClass(classId: string, classScore: number) {
-    this.db
-      .collection('classes')
-      .doc(classId)
-      .update({
-        'score': classScore + scoreSystem.borrow
-      })
-      .catch(err => {
-        this.openSnackBar(err, 'OK');
-      })
   }
 
   subtractBook(bookId: string, bookAvailable: number) {
@@ -184,8 +169,14 @@ export class BooksService {
       .update({
         'available': bookAvailable-1
       })
+      .then(res => {
+        this.openSnackBar('Livro alugado com sucesso', 'OK');
+        this.isLoading.next(false);
+        this.didBorrow.next(true);
+      })
       .catch(err => {
         this.openSnackBar(err, 'OK');
+        this.isLoading.next(false);
       })
   }
 

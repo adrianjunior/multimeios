@@ -24,8 +24,8 @@
                     <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('devolver-livro')">
                         <b>Devolver Livro</b>
                     </div>
-                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('devolver-livro')">
-                        <b>Doação de Livros</b>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('historico-logs')">
+                        <b>Histórico de Movimentações</b>
                     </div>
                 </div>
             </mat-expansion-panel>
@@ -40,9 +40,6 @@
                     </div>
                     <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-usuarios')">
                         <b>Lista de Usuários</b>
-                    </div>
-                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('ranking-alunos')">
-                        <b>Ranking dos Alunos</b>
                     </div>
                 </div>
             </mat-expansion-panel>
@@ -74,17 +71,12 @@
                     </div>
                 </div>
             </mat-expansion-panel>
-            <mat-expansion-panel class="sidenav-subheader-container">
-                <mat-expansion-panel-header>
-                    <mat-icon>settings</mat-icon>
-                    <h3 class="sidnav-subheader">Opções</h3>
-                </mat-expansion-panel-header>
-                <div class="button-container">
-                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="logout()">
-                        <b>Sair</b>
-                    </div>
+            <div class="sidenav-subheader-container">
+                <div matRipple [matRippleColor]="primary" (click)="logout()" fxLayout>
+                    <mat-icon>keyboard_return</mat-icon>
+                    <h3 class="sidnav-subheader">Sair</h3>
                 </div>
-            </mat-expansion-panel>
+            </div>
         </mat-accordion>
     </mat-sidenav>
     <router-outlet></router-outlet>

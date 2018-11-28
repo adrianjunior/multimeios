@@ -91,7 +91,7 @@ export class EmployeesService {
   }
 
   getCurrentEmployee() {
-    return this.authentication.auth.currentUser;
+    this.getEmployee(this.authentication.auth.currentUser.uid);
   }
 
   //SnackBar

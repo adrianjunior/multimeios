@@ -1,15 +1,12 @@
 import { Subscription } from 'rxjs';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDrawer, MatStepper, MatSnackBar, MatDialog } from '@angular/material';
 
 import { Book } from '../../../models/book.model';
 import { BooksService } from '../../../services/books/books.service';
-import { User } from 'src/app/models/user.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmployeesService } from '../../../services/employees/employees.service';
-import { UsersService } from '../../../services/users/users.service';
-import { ValidateUserEmailComponent } from '../../../components/validate-user-email/validate-user-email.component';
+import { ValidateUserEmailModal } from '../../../modals/validate-user-email-modal/validate-user-email-modal';
 
 @Component({
   selector: 'app-borrow-book',
@@ -69,7 +66,7 @@ export class BorrowBookComponent implements OnInit {
 
   openDialog(book: Book): void{
     this.book = book;
-    this.dialog.open(ValidateUserEmailComponent, {
+    this.dialog.open(ValidateUserEmailModal, {
       width: '600px',
       data: {book: this.book}
     });

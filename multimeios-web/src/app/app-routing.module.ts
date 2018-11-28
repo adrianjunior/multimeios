@@ -9,6 +9,9 @@ import { AddNoticeComponent } from './pages/notices/add-notice/add-notice.compon
 import { BorrowBookComponent } from './pages/books/borrow-book/borrow-book.component';
 import { ReturnBookComponent } from './pages/books/return-book/return-book.component';
 import { LoginPageComponent } from './pages/auth/login-page/login-page.component';
+import { AddEmployeeComponent } from './pages/employees/add-employee/add-employee.component';
+import { EmployeeListComponent } from './pages/employees/employee-list/employee-list.component';
+import { LogListComponent } from './pages/books/log-list/log-list.component';
 import { AuthGuard } from './auth-guard';
 
 const routes: Routes = [
@@ -18,10 +21,13 @@ const routes: Routes = [
     {path: 'cadastrar-livro', component: AddBookComponent, canActivate: [AuthGuard]},
     {path: 'alugar-livro', component: BorrowBookComponent, canActivate: [AuthGuard]},
     {path: 'devolver-livro', component: ReturnBookComponent, canActivate: [AuthGuard]},
+    {path: 'historico-logs', component: LogListComponent, canActivate: [AuthGuard]},
     {path: 'lista-usuarios', component: UserListComponent, canActivate: [AuthGuard]},
     {path: 'cadastrar-usuario', component: AddUserComponent, canActivate: [AuthGuard]},
     {path: 'lista-noticias', component: NoticeListComponent, canActivate: [AuthGuard]},
     {path: 'postar-noticia', component: AddNoticeComponent, canActivate: [AuthGuard]},
+    {path: 'cadastrar-funcionario', component: AddEmployeeComponent, canActivate: [AuthGuard]},
+    {path: 'lista-funcionarios', component: EmployeeListComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

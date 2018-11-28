@@ -21,6 +21,8 @@ export class UsersService {
   usersChanged = new Subject<User[]>();
   userChanged = new Subject<User>();
   userByEmailChanged = new Subject<User>();
+  isLoading = new Subject<boolean>();
+  userAdded = new Subject<boolean>();
 
   getUserByEmailSub = new Subscription;
 
@@ -28,25 +30,24 @@ export class UsersService {
 
   //Create
   addUser(user: User, password: string, isStudent: boolean) {
-    if(isStudent) {
-      this.authentication.auth.createUserAndRetrieveDataWithEmailAndPassword(user.email, password)
-      .then(data => {
-        this.db
-          .collection('users')
-          .doc(data.user.uid)
-          .set(user)
-          .then(res => {
-            this.openSnackBar('Usuário Cadastrado com sucesso!', 'OK')
-          });
+    this.isLoading.next(true);
+    this.db
+      .collection('users')
+      .add(user)
+      .then(res => {
+        this.openSnackBar('Usuário Cadastrado com sucesso!', 'OK')
+        this.isLoading.next(false);
+        this.userAdded.next(true);
       })
       .catch(err => {
-        console.log(err);
-      })
-    }
+        this.openSnackBar(err, 'OK')
+        this.isLoading.next(false);
+      });
   }
 
   //Read
   getUser(id: string) {
+    this.isLoading.next(true);
     this.db
       .collection('users')
       .doc(id)
@@ -58,6 +59,7 @@ export class UsersService {
         } as User;
       })
       .subscribe((user: User) => {
+        this.isLoading.next(false);
         this.user = user;
         this.userChanged.next(this.user)
       })
@@ -65,22 +67,41 @@ export class UsersService {
 
   //Update
   editUser(id: string, user: User) {
+    this.isLoading.next(true);
     this.db
       .collection('users')
       .doc(id)
       .update(user)
+      .then(res => {
+        this.openSnackBar('Usuário editado com sucesso!', 'OK');
+        this.isLoading.next(false);
+      })
+      .catch(err => {
+        this.openSnackBar(err, 'OK');
+        this.isLoading.next(false);
+      })
   }
 
   //Delete
   deleteUser(id: string) {
+    this.isLoading.next(true);
     this.db
       .collection('users')
       .doc(id)
       .delete()
+      .then(res => {
+        this.openSnackBar('Usuário excluido com sucesso!', 'OK');
+        this.isLoading.next(false);
+      })
+      .catch(err => {
+        this.openSnackBar(err, 'OK');
+        this.isLoading.next(false);
+      })
   }
 
   //Read List
   getUsers() {
+    this.isLoading.next(true);
     this.db
     .collection('users')
     .snapshotChanges()
@@ -93,12 +114,14 @@ export class UsersService {
       });
     })
     .subscribe((users: User[]) => {
+      this.isLoading.next(false);
       this.users = users;
       this.usersChanged.next([...this.users])
     })
   }
 
   getUserByEmail(userEmail: string) {
+    this.isLoading.next(true);
     this.getUserByEmailSub = this.db
       .collection('users', ref => ref.where('email', '==', userEmail))
       .snapshotChanges()
@@ -111,7 +134,7 @@ export class UsersService {
         });
       })
       .subscribe((users: User[]) => {
-        console.log(users);
+        this.isLoading.next(false);
         if(users == []) {
           this.userByEmailChanged.next(null)
         } else {

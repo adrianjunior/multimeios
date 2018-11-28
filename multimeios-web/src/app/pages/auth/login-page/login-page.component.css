@@ -26,10 +26,10 @@
     margin-top: 8px;
 }
 
-.spinner-container {
-    width: 30%;
+.spinner-text {
+    margin: 0!important;
 }
 
-.spinner .login-text{
-    color: #fff;
+.spinner-container {
+    padding-top: 16px;
 }

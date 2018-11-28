@@ -1,0 +1,22 @@
+<div *ngIf="loading == true" class="spinner-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="32px">
+  <mat-spinner color="background-color"></mat-spinner>
+  <h1 class="spinner-text">Checando email...</h1>
+</div>
+
+<form *ngIf="loading == false" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #f="ngForm">  
+  <h1 mat-dialog-title class="title">Alugar Livro</h1>
+  <div mat-dialog-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+    <p><b>Digite o email do Usuário que deseja alugar o livro.</b></p>
+
+    <mat-form-field class="v-input">
+      <input type="email" matInput placeholder="Email do Usuário" ngModel name="email" required #bnInput="ngModel">
+      <mat-error *ngIf="bnInput.hasError('required')">Você deve colocar o email do usuário.</mat-error>
+    </mat-form-field>
+
+    <div fxLayout fxLayoutGap="20px" class="v-input">
+      <button mat-raised-button class="dialog-button" color="warn" (click)="closeDialog()">Cancelar</button>
+      <button mat-raised-button class="dialog-button" color="primary" (click)="checkEmail(f)" [disabled]="f.invalid">Confirmar</button>
+    </div>
+    <button mat-button class="v-input" color="primary"(click)="addNewUser()">Usuário não cadastrado? Cadastre-o clicando aqui</button>
+  </div>
+</form>    
