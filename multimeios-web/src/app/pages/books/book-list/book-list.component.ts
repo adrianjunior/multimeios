@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatTableDataSource, MatSort, MatPaginator, MatDrawer } from '@angular/material';
 
 import { Book } from '../../../models/book.model';
-import books from '../../../models/books';
 import { Subscription } from 'rxjs';
 import { BooksService } from '../../../services/books/books.service';
 
@@ -19,20 +17,19 @@ export class BookListComponent implements OnInit, AfterViewInit {
     title: '',
     author: '',
     category: '',
-    genders: [],
     quantity: 0,
   };
   booksSubscription: Subscription;
   books: Book[];
 
-  displayedColumns = ['title', 'author', 'gender', 'available'];
+  displayedColumns = ['title', 'author', 'category', 'available'];
   dataSource = new MatTableDataSource<Book>();
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatDrawer) drawer: MatDrawer;
 
-  constructor(private router: Router, private bookService: BooksService) {}
+  constructor(private bookService: BooksService) {}
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace

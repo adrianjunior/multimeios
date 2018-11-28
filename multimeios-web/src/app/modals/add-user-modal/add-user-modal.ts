@@ -45,9 +45,10 @@ export class AddUserModal implements OnInit {
       name: form.value.name,
       class: form.value.class,
       email: form.value.email,
-      type: 2
+      type: 2,
+      borrowing: 0
     };
-    this.usersService.addUser(this.user, form.value.password, true);
+    this.usersService.addUser(this.user);
   }
 
   openDialog(user: User) {

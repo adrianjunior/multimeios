@@ -16,9 +16,14 @@ export class AddBookComponent implements OnInit {
     'Quadrinhos'
   ];
 
+  loading: boolean = false;
+
   constructor(private bookService: BooksService) { }
 
   ngOnInit() {
+    this.bookService.isLoading.subscribe(loading => {
+      this.loading = loading;
+    })
   }
 
   addBook(form: NgForm) {

@@ -5,5 +5,5 @@ export interface User {
     classId?: string;
     email: string;
     type: number;
-    score?: number;
+    borrowing: number;
 }

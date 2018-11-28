@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map'
 import { AngularFireAuth } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
+import { NgForm } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class UsersService {
   constructor(private db: AngularFirestore, private authentication: AngularFireAuth, private snackBar: MatSnackBar) { }
 
   //Create
-  addUser(user: User, password: string, isStudent: boolean) {
+  addUser(user: User) {
     this.isLoading.next(true);
     this.db
       .collection('users')
@@ -40,7 +41,7 @@ export class UsersService {
         this.userAdded.next(true);
       })
       .catch(err => {
-        this.openSnackBar(err, 'OK')
+        this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK')
         this.isLoading.next(false);
       });
   }
@@ -77,7 +78,7 @@ export class UsersService {
         this.isLoading.next(false);
       })
       .catch(err => {
-        this.openSnackBar(err, 'OK');
+        this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
         this.isLoading.next(false);
       })
   }
@@ -94,7 +95,7 @@ export class UsersService {
         this.isLoading.next(false);
       })
       .catch(err => {
-        this.openSnackBar(err, 'OK');
+        this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
         this.isLoading.next(false);
       })
   }

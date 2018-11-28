@@ -3,10 +3,11 @@ export interface Borrowing {
     bookId: string;
     bookTitle: string;
     bookAuthor: string;
+    bookAvailable: number;
     userId: string;
     userName: string;
     userEmail: string;
-    isStudent: boolean;
+    userBorrowing: number;
     employeeId: string;
     employeeName: string;
     startDate: string;

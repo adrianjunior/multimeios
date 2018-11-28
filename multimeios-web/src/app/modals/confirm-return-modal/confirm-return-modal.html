@@ -1,0 +1,24 @@
+<div *ngIf="loading == true" class="spinner-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="32px">
+  <mat-spinner color="background-color"></mat-spinner>
+  <h1 class="spinner-text">Realizando Devolução...</h1>
+</div>
+
+<div *ngIf="loading == false" fxLayout="column" fxLayoutAlign="center center">
+  <h1 class="title">Confirmar a Devolução</h1>
+
+  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
+    <span><b>Confira os dados da devolução e, caso esteja tudo correto, clique em confirmar.</b></span>
+
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <span>Título do Livro: <b>{{borrowing.bookTitle}}</b></span>
+      <span>Autor do Livro: <b>{{borrowing.bookAuthor}}</b></span>
+      <span>Nome do Usuário: <b>{{borrowing.userName}}</b></span>
+      <span>Email do Usuário: <b>{{borrowing.userEmail}}</b></span>
+    </div> 
+  
+    <div fxLayout fxLayoutGap="20px" class="v-input">
+      <button mat-raised-button class="dialog-button" color="warn" (click)="closeDialog()">Cancelar</button>
+      <button mat-raised-button class="dialog-button" color="primary" (click)="confirmReturn()">Confirmar</button>
+    </div>
+  </div>
+</div>

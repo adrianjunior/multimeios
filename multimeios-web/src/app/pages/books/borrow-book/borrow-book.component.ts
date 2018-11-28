@@ -20,21 +20,16 @@ export class BorrowBookComponent implements OnInit {
     title: '',
     author: '',
     category: '',
-    genders: [],
     quantity: 0,
   };
   booksSubscription: Subscription;
   books: Book[];
 
-  displayedColumns = ['title', 'author', 'gender', 'available'];
+  displayedColumns = ['title', 'author', 'category', 'available'];
   dataSource = new MatTableDataSource<Book>();
-
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatDrawer) drawer: MatDrawer;
 
   constructor(private bookService: BooksService, private employeesService: EmployeesService,
               private _formBuilder: FormBuilder, private snackBar: MatSnackBar, 
@@ -54,9 +49,6 @@ export class BorrowBookComponent implements OnInit {
       });
     });
     this.bookService.getBooks();
-    this.firstFormGroup = this._formBuilder.group({
-      userEmail: ['', Validators.required]
-    });
   }
 
   ngAfterViewInit() {

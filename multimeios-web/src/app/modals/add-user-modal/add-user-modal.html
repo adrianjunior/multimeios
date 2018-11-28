@@ -3,7 +3,7 @@
   <h1 class="spinner-text">Cadastrando Usuário...</h1>
 </div>
 
-<form *ngIf="loading == false" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form1="ngForm" (ngSubmit)="onSubmitStudent(form1)">
+<form *ngIf="loading == false" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #f="ngForm" (ngSubmit)="onSubmitStudent(form1)">
   <mat-card-title>Registrar Novo Aluno</mat-card-title>
 
   <mat-form-field class="v-input">
@@ -25,15 +25,8 @@
     <mat-error *ngIf="ueInput.hasError('required')">Você deve colocar o email do aluno.</mat-error>
   </mat-form-field>
 
-  <mat-form-field class="v-input">
-    <input type="password" matInput placeholder="Senha do Aluno" ngModel name="password" required #upInput="ngModel">
-    <mat-error *ngIf="upInput.hasError('required')">Você deve colocar a senha.</mat-error>
-  </mat-form-field>
-
-  <mat-form-field class="v-input">
-    <input type="password" matInput placeholder="Confirmação do Aluno" ngModel name="c-password" required #ucpInput="ngModel">
-    <mat-error *ngIf="ucInput.hasError('required')">Você deve colocar a confirmação.</mat-error>
-  </mat-form-field>
-
-  <button class="v-input" type="submit" mat-raised-button color="primary" [disabled]="form1.invalid">Cadastrar Aluno</button>
+  <div fxLayout fxLayoutGap="20px" class="v-input">
+    <button mat-raised-button class="dialog-button" color="warn" (click)="closeDialog()">Cancelar</button>
+    <button mat-raised-button class="dialog-button" color="primary" type="submit" [disabled]="f.invalid">Confirmar</button>
+  </div>
 </form>    

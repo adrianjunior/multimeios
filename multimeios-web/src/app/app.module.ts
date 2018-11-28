@@ -27,6 +27,9 @@ import { EmployeeListComponent } from './pages/employees/employee-list/employee-
 import { ValidateUserEmailModal } from './modals/validate-user-email-modal/validate-user-email-modal';
 import { ConfirmBorrowModal } from './modals/confirm-borrow-modal/confirm-borrow-modal';
 import { AddUserModal } from './modals/add-user-modal/add-user-modal';
+import { AddClassComponent } from './pages/classes/add-class/add-class.component';
+import { ClassListComponent } from './pages/classes/class-list/class-list.component';
+import { ConfirmReturnModal } from './modals/confirm-return-modal/confirm-return-modal';
 
 @NgModule({
   declarations: [
@@ -46,6 +49,9 @@ import { AddUserModal } from './modals/add-user-modal/add-user-modal';
     ValidateUserEmailModal,
     ConfirmBorrowModal,
     AddUserModal,
+    AddClassComponent,
+    ClassListComponent,
+    ConfirmReturnModal,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +68,8 @@ import { AddUserModal } from './modals/add-user-modal/add-user-modal';
   entryComponents: [
     ValidateUserEmailModal,
     ConfirmBorrowModal,
-    AddUserModal
+    AddUserModal,
+    ConfirmReturnModal,
   ],
   providers: [
     AngularFirestore,

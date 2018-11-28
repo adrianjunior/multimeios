@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Location } from '@angular/common';
 
 import { User } from '../../../models/user.model';
 import { UsersService } from '../../../services/users/users.service';
+import { ClassesService } from '../../../services/classes/classes.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-user',
@@ -13,23 +15,26 @@ import { UsersService } from '../../../services/users/users.service';
 })
 export class AddUserComponent implements OnInit {
 
-  classes: string[] = [
-    'Primeiro A',
-    'Primeiro B',
-    'Primeiro C',
-    'Segundo A',
-    'Segundo B',
-    'Segundo C',
-    'Terceiro A',
-    'Terceiro B',
-    'Terceiro C'
-  ];
+  classes: string[] = [];
 
   private user: User;
+  private classSubscription: Subscription;
+  private userSubscription: Subscription
 
-  constructor(private usersService: UsersService) { }
+  @ViewChild(NgForm) form1: NgForm;
+
+  constructor(private usersService: UsersService, private classesService: ClassesService) { }
 
   ngOnInit() {
+    this.classSubscription = this.classesService.classesChanged.subscribe(classes => {
+      classes.forEach(clss => {
+        this.classes.push(clss.name);
+      })
+    })
+    this.classesService.getClasses();
+    this.userSubscription = this.usersService.userAdded.subscribe(added => {
+      this.form1.reset();
+    })
   }
 
   onSubmitStudent(form: NgForm) {
@@ -37,9 +42,10 @@ export class AddUserComponent implements OnInit {
       name: form.value.name,
       class: form.value.class,
       email: form.value.email,
-      type: 2
+      type: 0,
+      borrowing: 0
     };
-    this.usersService.addUser(this.user, form.value.password, true);
+    this.usersService.addUser(this.user);
   }
 
 }

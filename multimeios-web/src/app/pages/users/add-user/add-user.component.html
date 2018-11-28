@@ -22,16 +22,6 @@
         <mat-error *ngIf="ueInput.hasError('required')">Você deve colocar o email do aluno.</mat-error>
       </mat-form-field>
 
-      <mat-form-field class="v-input">
-        <input type="password" matInput placeholder="Senha do Aluno" ngModel name="password" required #upInput="ngModel">
-        <mat-error *ngIf="upInput.hasError('required')">Você deve colocar a senha.</mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="v-input">
-        <input type="password" matInput placeholder="Confirmação do Aluno" ngModel name="c-password" required #ucpInput="ngModel">
-        <mat-error *ngIf="ucInput.hasError('required')">Você deve colocar a confirmação.</mat-error>
-      </mat-form-field>
-
       <button type="submit" mat-raised-button color="primary" [disabled]="form1.invalid">Registrar Aluno</button>
     </form>    
   </mat-card>

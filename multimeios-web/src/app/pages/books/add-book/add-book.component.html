@@ -1,8 +1,12 @@
 <div class="title-bar" fxLayout fxLayoutAlign="center center">
-  <h1 class="title">Alugar Livro</h1>
+  <h1 class="title">Cadastrar Livro</h1>
 </div>
 <section class="signin-form" fxLayoutAlign="center" fxLayoutGap="15px">
-  <mat-card fxFlex="600px" class="add-card  mat-elevation-z4">
+  <div *ngIf="loading == true" class="spinner-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="32px">
+    <mat-spinner color="background-color"></mat-spinner>
+    <h1 class="spinner-text">Cadastrando Livro...</h1>
+  </div>
+  <mat-card *ngIf="loading == false" fxFlex="600px" class="add-card  mat-elevation-z4">
     <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #f="ngForm" (ngSubmit)="addBook(f)">
 
       <mat-form-field class="v-input">
@@ -44,7 +48,7 @@
         </mat-form-field>
       </div>
 
-      <button type="submit" class="v-input" mat-raised-button color="primary" [disabled]="f.invalid">Cadastrar</button>
+      <button type="submit" class="v-input" mat-raised-button color="primary" [disabled]="f.invalid">Cadastrar Livro</button>
     </form>    
   </mat-card>
 </section>

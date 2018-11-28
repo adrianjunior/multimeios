@@ -13,6 +13,8 @@ import { AddEmployeeComponent } from './pages/employees/add-employee/add-employe
 import { EmployeeListComponent } from './pages/employees/employee-list/employee-list.component';
 import { LogListComponent } from './pages/books/log-list/log-list.component';
 import { AuthGuard } from './auth-guard';
+import { ClassListComponent } from './pages/classes/class-list/class-list.component';
+import { AddClassComponent } from './pages/classes/add-class/add-class.component';
 
 const routes: Routes = [
     {path: '', component: LoginPageComponent},
@@ -24,6 +26,8 @@ const routes: Routes = [
     {path: 'historico-logs', component: LogListComponent, canActivate: [AuthGuard]},
     {path: 'lista-usuarios', component: UserListComponent, canActivate: [AuthGuard]},
     {path: 'cadastrar-usuario', component: AddUserComponent, canActivate: [AuthGuard]},
+    {path: 'lista-turmas', component: ClassListComponent, canActivate: [AuthGuard]},
+    {path: 'cadastrar-turma', component: AddClassComponent, canActivate: [AuthGuard]},
     {path: 'lista-noticias', component: NoticeListComponent, canActivate: [AuthGuard]},
     {path: 'postar-noticia', component: AddNoticeComponent, canActivate: [AuthGuard]},
     {path: 'cadastrar-funcionario', component: AddEmployeeComponent, canActivate: [AuthGuard]},

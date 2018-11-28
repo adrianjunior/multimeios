@@ -10,6 +10,10 @@
     color: rgba(104, 58, 183, 0.8);
 }
 
+.dialog-button {
+    width: 245px;
+}
+
 .spinner-text {
     margin: 0!important;
 }

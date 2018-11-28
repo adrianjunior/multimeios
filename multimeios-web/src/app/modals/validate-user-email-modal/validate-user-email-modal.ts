@@ -35,8 +35,21 @@ export class ValidateUserEmailModal implements OnInit {
     this.userSubscription = this.usersService.userByEmailChanged.subscribe(user => {
       this.user = user;
       if(this.user != null) {
-        this.openDialog(this.user);
-        this.userSubscription.unsubscribe();
+        if(this.user.type == 0) {
+          if(this.user.borrowing > 0) {
+            this.openSnackBar('Este usuário já possui um livro alugado no momento', 'OK');
+          } else {
+            this.openDialog(this.user);
+            this.userSubscription.unsubscribe();
+          }
+        } else if (this.user.type == 1) {
+          if(this.user.borrowing > 2) {
+            this.openSnackBar('Este usuário já possui três livros alugado no momento', 'OK');
+          } else {
+            this.openDialog(this.user);
+            this.userSubscription.unsubscribe();
+          }
+        }
       } else {
         this.openSnackBar('Não há usuário cadastrado com este email', 'OK');
         this.userSubscription.unsubscribe();

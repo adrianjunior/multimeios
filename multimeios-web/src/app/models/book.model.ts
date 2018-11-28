@@ -4,7 +4,6 @@ export interface Book {
     author: string;
     editor?: string;
     category: string;
-    genders?: string[];
     edition?: string;
     year?: number;
     quantity: number;

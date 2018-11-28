@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Notice } from '../../models/notice.model';
+import { Class } from '../../models/class.model';
 import { Subject } from 'rxjs/Subject';
 
 import 'rxjs/add/operator/map'
@@ -9,27 +9,26 @@ import { MatSnackBar } from '@angular/material';
 @Injectable({
   providedIn: 'root'
 })
-export class NoticesService {
+export class ClassesService {
+  classes: Class[];
+  class: Class;
 
-  notices: Notice[];
-  notice: Notice;
-
-  noticesChanged = new Subject<Notice[]>();
-  noticeChanged = new Subject<Notice>();
+  classesChanged = new Subject<Class[]>();
+  classChanged = new Subject<Class>();
 
   isLoading = new Subject<boolean>();
 
   constructor(private db: AngularFirestore, private snackBar: MatSnackBar) {}
 
   //Create
-  addNotice(notice: Notice) {
+  addClass(clss: Class) {
     this.isLoading.next(true);
     this.db
-      .collection('notices')
-      .add(notice)
+      .collection('classes')
+      .add(clss)
       .then(res => {
         this.isLoading.next(false);
-        this.openSnackBar('Notícia postada com sucesso!', 'OK');
+        this.openSnackBar('Turma cadastrada com sucesso!', 'OK');
       })
       .catch(err => {
         this.isLoading.next(false);
@@ -38,35 +37,35 @@ export class NoticesService {
   }
 
   //Read
-  getNotice(id: string) {
+  getClass(id: string) {
     this.isLoading.next(true);
     this.db
-      .collection('notices')
+      .collection('classes')
       .doc(id)
       .snapshotChanges()
       .map(doc => {
         return {
           id: doc.payload.id,
           ...doc.payload.data()
-        } as Notice;
+        } as Class;
       })
-      .subscribe((notice: Notice) => {
-        this.notice = notice;
-        this.noticeChanged.next(this.notice);
+      .subscribe((clss: Class) => {
+        this.class = clss;
+        this.classChanged.next(this.class);
         this.isLoading.next(false);
       })
   }
 
   //Update
-  editNotice(id: string, notice: Notice) {
+  editClass(id: string, clss: Class) {
     this.isLoading.next(true);
     this.db
-      .collection('notices')
+      .collection('classes')
       .doc(id)
-      .update(notice)
+      .update(clss)
       .then(res => {
         this.isLoading.next(false);
-        this.openSnackBar('Notícia editada com sucesso!', 'OK');
+        this.openSnackBar('Turma editada com sucesso!', 'OK');
       })
       .catch(err => {
         this.isLoading.next(false);
@@ -75,15 +74,15 @@ export class NoticesService {
   }
 
   //Delete
-  deleteNotice(id: string) {
+  deleteClass(id: string) {
     this.isLoading.next(true);
     this.db
-      .collection('notices')
+      .collection('classes')
       .doc(id)
       .delete()
       .then(res => {
         this.isLoading.next(false);
-        this.openSnackBar('Notícia excluida com sucesso!', 'OK');
+        this.openSnackBar('Turma excluida com sucesso!', 'OK');
       })
       .catch(err => {
         this.isLoading.next(false);
@@ -92,22 +91,22 @@ export class NoticesService {
   }
 
   //Read List
-  getNotices() {
+  getClasses() {
     this.isLoading.next(true);
     this.db
-    .collection('notices')
+    .collection('classes')
     .snapshotChanges()
     .map(docArray => {
       return docArray.map(doc => {
         return {
           id: doc.payload.doc.id,
           ...doc.payload.doc.data()
-        } as Notice;
+        } as Class;
       });
     })
-    .subscribe((notices: Notice[]) => {
-      this.notices = notices;
-      this.noticesChanged.next([...this.notices])
+    .subscribe((clsses: Class[]) => {
+      this.classes = clsses;
+      this.classesChanged.next([...this.classes])
       this.isLoading.next(false);
     })
   }
@@ -118,5 +117,4 @@ export class NoticesService {
       duration: 3000,
     });
   }
-
 }

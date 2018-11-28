@@ -7,7 +7,7 @@
         </mat-toolbar>
         <mat-accordion class="sidenav-list" [displayMode]="flat">
             <mat-expansion-panel class="sidenav-subheader-container">
-                <mat-expansion-panel-header fxLayout>
+                <mat-expansion-panel-header matRipple [matRippleColor]="primary">
                     <mat-icon>book</mat-icon>
                     <h3 class="sidnav-subheader">Livros</h3>
                 </mat-expansion-panel-header>
@@ -30,7 +30,7 @@
                 </div>
             </mat-expansion-panel>
             <mat-expansion-panel class="sidenav-subheader-container">
-                <mat-expansion-panel-header fxLayout>
+                <mat-expansion-panel-header matRipple [matRippleColor]="primary">
                     <mat-icon>person</mat-icon>
                     <h3 class="sidnav-subheader">Usuários</h3>
                 </mat-expansion-panel-header>
@@ -44,13 +44,27 @@
                 </div>
             </mat-expansion-panel>
             <mat-expansion-panel class="sidenav-subheader-container">
-                <mat-expansion-panel-header>
+                <mat-expansion-panel-header matRipple [matRippleColor]="primary">
+                    <mat-icon>people</mat-icon>
+                    <h3 class="sidnav-subheader">Turmas</h3>
+                </mat-expansion-panel-header>
+                <div class="button-container">
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-turma')">
+                        <b>Cadastrar Turma</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-turmas')">
+                        <b>Lista de Turmas</b>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel class="sidenav-subheader-container">
+                <mat-expansion-panel-header matRipple [matRippleColor]="primary">
                     <mat-icon>speaker_notes</mat-icon>
                     <h3 class="sidnav-subheader">Notícias</h3>
                 </mat-expansion-panel-header>
                 <div class="button-container">
-                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-noticia')">
-                        <b>Cadastrar Notícia</b>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('postar-noticia')">
+                        <b>Postar Notícia</b>
                     </div>
                     <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-noticias')">
                         <b>Lista de Notícias</b>
@@ -58,7 +72,7 @@
                 </div>
             </mat-expansion-panel>
             <mat-expansion-panel class="sidenav-subheader-container">
-                <mat-expansion-panel-header>
+                <mat-expansion-panel-header matRipple [matRippleColor]="primary">
                     <mat-icon>face</mat-icon>
                     <h3 class="sidnav-subheader">Funcionários</h3>
                 </mat-expansion-panel-header>
@@ -71,12 +85,12 @@
                     </div>
                 </div>
             </mat-expansion-panel>
-            <div class="sidenav-subheader-container">
-                <div matRipple [matRippleColor]="primary" (click)="logout()" fxLayout>
+            <mat-expansion-panel class="sidenav-subheader-container" hideToggle="true">
+                <mat-expansion-panel-header matRipple [matRippleColor]="primary" (click)="logout()">
                     <mat-icon>keyboard_return</mat-icon>
                     <h3 class="sidnav-subheader">Sair</h3>
-                </div>
-            </div>
+                </mat-expansion-panel-header>
+            </mat-expansion-panel>
         </mat-accordion>
     </mat-sidenav>
     <router-outlet></router-outlet>

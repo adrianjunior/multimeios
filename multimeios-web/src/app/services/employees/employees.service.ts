@@ -18,10 +18,13 @@ export class EmployeesService {
   employeesChanged = new Subject<Employee[]>();
   employeeChanged = new Subject<Employee>();
 
+  isLoading = new Subject<boolean>();
+
   constructor(private db: AngularFirestore, private authentication: AngularFireAuth, private snackBar: MatSnackBar) {}
 
   //Create
   addEmployee(employee: Employee, password: string) {
+    this.isLoading.next(true);
     this.authentication.auth.createUserAndRetrieveDataWithEmailAndPassword(employee.email, password)
       .then(data => {
         this.db
@@ -29,16 +32,23 @@ export class EmployeesService {
           .doc(data.user.uid)
           .set(employee)
           .then(res => {
-            this.openSnackBar('Funcionário Cadastrado com sucesso!', 'OK')
-          });
+            this.isLoading.next(false);
+            this.openSnackBar('Funcionário cadastrado com sucesso!', 'OK');
+          })
+          .catch(err => {
+            this.isLoading.next(false);
+            this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
+          })
       })
       .catch(err => {
-        console.log(err);
+        this.isLoading.next(false);
+        this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
       })
   }
 
   //Read
   getEmployee(id: string) {
+    this.isLoading.next(true);
     this.db
       .collection('employees')
       .doc(id)
@@ -52,27 +62,47 @@ export class EmployeesService {
       .subscribe((employee: Employee) => {
         this.employee = employee;
         this.employeeChanged.next(this.employee)
+        this.isLoading.next(false);
       })
   }
 
   //Update
   editEmployee(id: string, employee: Employee) {
+    this.isLoading.next(true);
     this.db
       .collection('employees')
       .doc(id)
       .update(employee)
+      .then(res => {
+        this.isLoading.next(false);
+        this.openSnackBar('Funcionário editado com sucesso!', 'OK');
+      })
+      .catch(err => {
+        this.isLoading.next(false);
+        this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
+      })
   }
 
   //Delete
   deleteEmployee(id: string) {
+    this.isLoading.next(true);
     this.db
       .collection('employees')
       .doc(id)
       .delete()
+      .then(res => {
+        this.isLoading.next(false);
+        this.openSnackBar('Funcionário excluido com sucesso!', 'OK');
+      })
+      .catch(err => {
+        this.isLoading.next(false);
+        this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
+      })
   }
 
   //Read List
   getEmployees() {
+    this.isLoading.next(true);
     this.db
     .collection('employees')
     .snapshotChanges()
@@ -86,7 +116,8 @@ export class EmployeesService {
     })
     .subscribe((employees: Employee[]) => {
       this.employees = employees;
-      this.employeesChanged.next([...this.employees])
+      this.employeesChanged.next([...this.employees]);
+      this.isLoading.next(false);
     })
   }
 

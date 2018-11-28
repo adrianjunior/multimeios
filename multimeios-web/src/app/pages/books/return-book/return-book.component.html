@@ -1,3 +1,54 @@
-<p>
-  return-book works!
-</p>
+<div class="title-bar" fxLayout fxLayoutAlign="center center">
+  <h1 class="title">Devolver Livro</h1>
+</div>
+<div class="container mat-elevation-z4">
+  <div class="header mat-elevation-z2">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Pesquisar">
+    </mat-form-field>
+  </div>
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="bookTitle">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Título do Livro </mat-header-cell>
+      <mat-cell *matCellDef="let borrowing"> {{borrowing.bookTitle}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="bookAuthor">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Autor do Livro </mat-header-cell>
+      <mat-cell *matCellDef="let borrowing"> {{borrowing.bookAuthor}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="userName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nome do Usuário </mat-header-cell>
+      <mat-cell *matCellDef="let borrowing"> {{borrowing.userName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="userEmail">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Email do Usuário </mat-header-cell>
+      <mat-cell *matCellDef="let borrowing"> {{borrowing.userEmail}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="employeeName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nome do Funcionário </mat-header-cell>
+      <mat-cell *matCellDef="let borrowing"> {{borrowing.employeeName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="startDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Data de Aluguel </mat-header-cell>
+      <mat-cell *matCellDef="let borrowing"> {{borrowing.startDate}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="endDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Data de Devolução </mat-header-cell>
+      <mat-cell *matCellDef="let borrowing"> {{borrowing.endDate}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let borrowing; columns: displayedColumns;" matRipple [matRippleColor]="ripple" class="row" (click)="openDialog(borrowing)">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageSize]="7" [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>

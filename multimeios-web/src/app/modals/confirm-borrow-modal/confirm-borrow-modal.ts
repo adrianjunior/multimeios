@@ -42,7 +42,7 @@ export class ConfirmBorrowModal implements OnInit {
   }
 
   confirmBorrow() {
-    this.booksService.borrowBook(this.user, true, this.book);
+    this.booksService.borrowBook(this.user, this.book);
   }
 
 }
