@@ -16,6 +16,18 @@ import { Subscription } from 'rxjs';
 export class AddUserComponent implements OnInit {
 
   classes: string[] = [];
+  subjects: string[] = [
+    'Português',
+    'Literatura',
+    'Redação',
+    'Filosofia',
+    'Sociologia',
+    'Física',
+    'Química',
+    'Biologia',
+    'Matemática',
+    'Educação Física'
+  ];
 
   private user: User;
   private classSubscription: Subscription;
@@ -41,6 +53,28 @@ export class AddUserComponent implements OnInit {
     this.user = {
       name: form.value.name,
       class: form.value.class,
+      email: form.value.email,
+      type: 0,
+      borrowing: 0
+    };
+    this.usersService.addUser(this.user);
+  }
+
+  onSubmitTeacher(form: NgForm) {
+    this.user = {
+      name: form.value.name,
+      role: `Professor de ${form.value.subject}`,
+      email: form.value.email,
+      type: 1,
+      borrowing: 0
+    };
+    this.usersService.addUser(this.user);
+  }
+
+  onSubmitOther(form: NgForm) {
+    this.user = {
+      name: form.value.name,
+      role: form.value.role,
       email: form.value.email,
       type: 0,
       borrowing: 0

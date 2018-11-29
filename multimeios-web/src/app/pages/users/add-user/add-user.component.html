@@ -1,28 +1,85 @@
 <section class="signin-form" fxLayoutAlign="center" fxLayoutGap="15px" style="margin-top: 5vh;">
-  <mat-card fxFlex="600px" class="mat-elevation-z2">
-    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form1="ngForm" (ngSubmit)="onSubmitStudent(form1)">
-      <mat-card-title>Registrar Novo Aluno</mat-card-title>
-
-      <mat-form-field class="v-input">
-        <input type="text" matInput placeholder="Nome do Aluno" ngModel name="name" required #unInput="ngModel">
-        <mat-error *ngIf="unInput.hasError('required')">Você deve colocar o nome do aluno.</mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="v-input">
-        <mat-select placeholder="Turma do Aluno" required name="class" ngModel #ucInput="ngModel">
-          <mat-option *ngFor="let class of classes" [value]="class">
-            {{class}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="ucInput.hasError('required')">Você deve colocar a turma do aluno.</mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="v-input">
-        <input type="text" matInput placeholder="E-Mail do Aluno" ngModel name="email" required #ueInput="ngModel">
-        <mat-error *ngIf="ueInput.hasError('required')">Você deve colocar o email do aluno.</mat-error>
-      </mat-form-field>
-
-      <button type="submit" mat-raised-button color="primary" [disabled]="form1.invalid">Registrar Aluno</button>
-    </form>    
-  </mat-card>
+  <mat-tab-group>
+    <mat-tab label="Registrar Aluno"> 
+      <mat-card fxFlex="600px" class="mat-elevation-z2">
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form1="ngForm" (ngSubmit)="onSubmitStudent(form1)">
+          <mat-card-title>Registrar Novo Aluno</mat-card-title>
+    
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="Nome do Aluno" ngModel name="name" required #unInput="ngModel">
+            <mat-error *ngIf="unInput.hasError('required')">Você deve colocar o nome do aluno.</mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="v-input">
+            <mat-select placeholder="Turma do Aluno" required name="class" ngModel #ucInput="ngModel">
+              <mat-option *ngFor="let class of classes" [value]="class">
+                {{class}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="ucInput.hasError('required')">Você deve colocar a turma do aluno.</mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="E-Mail do Aluno" ngModel name="email" required #ueInput="ngModel">
+            <mat-error *ngIf="ueInput.hasError('required')">Você deve colocar o email do aluno.</mat-error>
+          </mat-form-field>
+    
+          <button type="submit" mat-raised-button color="primary" [disabled]="form1.invalid">Registrar Aluno</button>
+        </form>    
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Registrar Professor"> 
+      <mat-card fxFlex="600px" class="mat-elevation-z2">
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form2="ngForm" (ngSubmit)="onSubmitTeacher(form2)">
+          <mat-card-title>Registrar Novo Professor</mat-card-title>
+    
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="Nome do Professor" ngModel name="name" required #unInput="ngModel">
+            <mat-error *ngIf="unInput.hasError('required')">Você deve colocar o nome do professor.</mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="v-input">
+            <mat-select placeholder="Matéria do Professor" required name="subject" ngModel #ucInput="ngModel">
+              <mat-option *ngFor="let subject of subjects" [value]="subject">
+                {{subject}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="ucInput.hasError('required')">Você deve colocar a matéria do professor.</mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="E-mail do Professor" ngModel name="email" required #ueInput="ngModel">
+            <mat-error *ngIf="ueInput.hasError('required')">Você deve colocar o email do professor.</mat-error>
+          </mat-form-field>
+    
+          <button type="submit" mat-raised-button color="primary" [disabled]="form2.invalid">Registrar Professor</button>
+        </form>    
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Registrar Outro"> 
+      <mat-card fxFlex="600px" class="mat-elevation-z2">
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form3="ngForm" (ngSubmit)="onSubmitOther(form3)">
+          <mat-card-title>Registrar Outro Usuário</mat-card-title>
+    
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="Nome do Usuário" ngModel name="name" required #unInput="ngModel">
+            <mat-error *ngIf="unInput.hasError('required')">Você deve colocar o nome do usuário.</mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="Função do Usuário" ngModel name="role" required #ueInput="ngModel">
+            <mat-error *ngIf="ucInput.hasError('required')">Você deve colocar a função do usuário.</mat-error>
+          </mat-form-field>
+    
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="E-mail do Usuário" ngModel name="email" required #ueInput="ngModel">
+            <mat-error *ngIf="ueInput.hasError('required')">Você deve colocar o email do usuário.</mat-error>
+          </mat-form-field>
+    
+          <button type="submit" mat-raised-button color="primary" [disabled]="form3.invalid">Registrar Usuário</button>
+        </form>    
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>  
+  
 </section>

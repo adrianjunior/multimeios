@@ -9,8 +9,6 @@ import { Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
 import { Borrowing } from '../../models/borrowing.model';
 import { LogItem } from '../../models/logitem.model';
-import { Employee } from '../../models/employee.model';
-import scoreSystem from '../../../assets/scoreSystem';
 import { EmployeesService } from '../employees/employees.service';
 
 @Injectable({
@@ -21,6 +19,7 @@ export class BooksService {
   books: Book[];
   book: Book;
   borrowings: Borrowing[];
+  logItems: LogItem[];
 
   booksChanged = new Subject<Book[]>();
   bookChanged = new Subject<Book>();
@@ -28,6 +27,7 @@ export class BooksService {
   didBorrow = new Subject<boolean>();
   borrowingsChanged = new Subject<Borrowing[]>();
   didReturn = new Subject<boolean>();
+  logItemsChanged = new Subject<LogItem[]>();
 
   employeeSubscription: Subscription; 
 
@@ -149,7 +149,13 @@ export class BooksService {
           });
         })
         .subscribe((borrowings: Borrowing[]) => {
-          this.borrowings = borrowings;
+          this.borrowings = borrowings.sort((item1, item2) => {
+            return moment(item2.endDate).diff(item1.endDate);
+          })
+          this.borrowings.forEach(item => {
+            item.startDate = moment(item.startDate).locale('pt-br').format('LLL');
+            item.endDate = moment(item.endDate).locale('pt-br').format('LLL');
+          })
           this.borrowingsChanged.next([...this.borrowings])
           this.isLoading.next(false);
         })
@@ -159,51 +165,85 @@ export class BooksService {
   borrowBook(user: User, book: Book) {
     this.isLoading.next(true)
     const now = moment();
-    const borrowDate = now.locale('pt-br').format('L');
-    const returnDate = now.add(15, 'days').locale('pt-br').format('L');
+    const borrowDate = now.toISOString();
+    const returnDate = now.add(15, 'days').toISOString();
     this.employeeSubscription = this.employeesService.employeeChanged.subscribe(employee => {
-      let borrowing: Borrowing = {
-        bookId: book.id,
-        bookTitle: book.title,
-        bookAuthor: book.author,
-        bookAvailable: book.available-1,
-        employeeId: employee.id,
-        employeeName: employee.name,
-        startDate: borrowDate,
-        endDate: returnDate,
-        userId: user.id,
-        userName: user.name,
-        userEmail: user.email,
-        userBorrowing: user.borrowing+1
-      };
-      console.log(borrowing)
-      this.addBorrowing(borrowing);
-      let logItem: LogItem = {
-        type: 'Aluguel de Livro',
-        date: borrowDate,
-        hour: now.locale('pt-br').format('LT'),
-        employeeName: employee.name,
-        bookTitle: book.title,
-        bookAuthor: book.author,
-        userName: user.name,
-        userEmail: user.email
-      }
-      console.log(logItem)
-      this.addLogItem(logItem);
-      this.subtractBook(book.id, book.available);
-      this.addBorrowingToUser(user.id, user.borrowing);
+      
     })
     this.employeesService.getCurrentEmployee();
+    let borrowing: Borrowing = {
+      bookId: book.id,
+      bookTitle: book.title,
+      bookAuthor: book.author,
+      bookAvailable: book.available-1,
+      employeeId: '',
+      employeeName: '',
+      startDate: borrowDate,
+      endDate: returnDate,
+      userId: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userBorrowing: user.borrowing+1
+    };
+    console.log(borrowing)
+    this.addBorrowing(borrowing);
+    let logItem: LogItem = {
+      type: 'Aluguel de Livro',
+      dateTime: moment().toISOString(),
+      employeeName: '',
+      bookTitle: book.title,
+      bookAuthor: book.author,
+      userName: user.name,
+      userEmail: user.email
+    }
+    console.log(logItem)
+    this.addLogItem(logItem);
+    this.subtractBook(book.id, book.available);
+    this.addBorrowingToUser(user.id, user.borrowing);
   }
 
   addBorrowing(borrowing: Borrowing) {
     this.db
       .collection('borrowings')
       .add(borrowing)
+      .then(res => {
+        this.didBorrow.next(true);
+        this.openSnackBar('Livro alugado com sucesso!', 'OK');
+        this.isLoading.next(false);
+      })
       .catch(err => {
         this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
         this.isLoading.next(false);
       });
+  }
+
+  getLogItems() {
+    this.isLoading.next(true);
+    this.subs.push(
+      this.db
+        .collection('logs')
+        .snapshotChanges()
+        .map(docArray => {
+          return docArray.map(doc => {
+            return {
+              id: doc.payload.doc.id,
+              ...doc.payload.doc.data()
+            } as LogItem;
+          });
+        })
+        .subscribe((logItems: LogItem[]) => {
+          this.logItems = logItems.sort((item1, item2) => {
+            console.log(moment(item1.dateTime).locale('pt-br').format('LLL'));
+            return moment(item2.dateTime).diff(item1.dateTime);
+          })
+          this.logItems.forEach(item => {
+            item.dateTime = moment(item.dateTime).locale('pt-br').format('LLL');
+          })
+          console.log(this.logItems);
+          this.logItemsChanged.next([...this.logItems])
+          this.isLoading.next(false);
+        })
+    );
   }
 
   addLogItem(logItem: LogItem) {
@@ -213,7 +253,7 @@ export class BooksService {
       .catch(err => {
         this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
         this.isLoading.next(false);
-      });
+      })
   }
 
   subtractBook(bookId: string, bookAvailable: number) {
@@ -236,11 +276,6 @@ export class BooksService {
       .update({
         'borrowing': userBorrowing+1
       })
-      .then(res => {
-        this.openSnackBar('Livro alugado com sucesso', 'OK');
-        this.isLoading.next(false);
-        this.didBorrow.next(true);
-      })
       .catch(err => {
         this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
         this.isLoading.next(false);
@@ -249,27 +284,25 @@ export class BooksService {
 
   returnBook(borrowing: Borrowing) {
     this.isLoading.next(true)
-    const now = moment();
-    const returnDate = now.locale('pt-br').format('L');
     this.employeeSubscription = this.employeesService.employeeChanged.subscribe(employee => {
-      console.log(borrowing)
-      this.removeBorrowing(borrowing);
-      let logItem: LogItem = {
-        type: 'Devolução de Livro',
-        date: returnDate,
-        hour: now.locale('pt-br').format('LT'),
-        employeeName: employee.name,
-        bookTitle: borrowing.bookTitle,
-        bookAuthor: borrowing.bookAuthor,
-        userName: borrowing.userName,
-        userEmail: borrowing.userEmail
-      }
-      console.log(logItem)
-      this.addLogItem(logItem);
-      this.addBookAvailable(borrowing.bookId, borrowing.bookAvailable);
-      this.subtractBorrowingToUser(borrowing.userId, borrowing.userBorrowing);
+      
     })
     this.employeesService.getCurrentEmployee();
+    console.log(borrowing)
+    this.removeBorrowing(borrowing);
+    let logItem: LogItem = {
+      type: 'Devolução de Livro',
+      dateTime: moment().toISOString(),
+      employeeName: '',
+      bookTitle: borrowing.bookTitle,
+      bookAuthor: borrowing.bookAuthor,
+      userName: borrowing.userName,
+      userEmail: borrowing.userEmail
+    }
+    console.log(logItem)
+    this.addLogItem(logItem);
+    this.addBookAvailable(borrowing.bookId, borrowing.bookAvailable);
+    this.subtractBorrowingToUser(borrowing.userId, borrowing.userBorrowing);
   }
 
   removeBorrowing(borrowing: Borrowing) {
@@ -277,6 +310,11 @@ export class BooksService {
       .collection('borrowings')
       .doc(borrowing.id)
       .delete()
+      .then(res => {
+        this.openSnackBar('Livro devolvido com sucesso', 'OK');
+        this.isLoading.next(false);
+        this.didReturn.next(true);
+      })
       .catch(err => {
         this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
         this.isLoading.next(false);
@@ -302,11 +340,6 @@ export class BooksService {
       .doc(userId)
       .update({
         'borrowing': userBorrowing-1
-      })
-      .then(res => {
-        this.openSnackBar('Livro devolvido com sucesso', 'OK');
-        this.isLoading.next(false);
-        this.didReturn.next(true);
       })
       .catch(err => {
         this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');

@@ -1,11 +1,10 @@
 import { Subscription } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator, MatDrawer, MatStepper, MatSnackBar, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatSnackBar, MatDialog } from '@angular/material';
 
 import { Borrowing } from '../../../models/borrowing.model';
 import { BooksService } from '../../../services/books/books.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { EmployeesService } from '../../../services/employees/employees.service';
 import { ConfirmReturnModal } from '../../../modals/confirm-return-modal/confirm-return-modal';
 
 @Component({
@@ -16,34 +15,16 @@ import { ConfirmReturnModal } from '../../../modals/confirm-return-modal/confirm
 export class ReturnBookComponent implements OnInit {
 
   ripple: string = 'rgba(104, 58, 183, 0.4)';
-  borrowing: Borrowing = {
-    bookId: '',
-    bookTitle: '',
-    bookAuthor: '',
-    bookAvailable: -1,
-    userId: '', 
-    userName: '',
-    userEmail: '',
-    userBorrowing: -1,
-    employeeId: '',
-    employeeName: '',
-    startDate: '',
-    endDate: ''
-  };
   borrowingsSubscription: Subscription;
   borrowings: Borrowing[];
 
   displayedColumns = ['bookTitle', 'bookAuthor', 'userName', 'userEmail', 'employeeName', 'startDate', 'endDate'];
   dataSource = new MatTableDataSource<Borrowing>();
 
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private booksService: BooksService, private employeesService: EmployeesService,
-              private _formBuilder: FormBuilder, private snackBar: MatSnackBar, 
+  constructor(private booksService: BooksService, private snackBar: MatSnackBar, 
               public dialog: MatDialog) {}
 
   applyFilter(filterValue: string) {
@@ -58,7 +39,7 @@ export class ReturnBookComponent implements OnInit {
     });
     this.booksService.getBorrowings();
   }
-
+W
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
