@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map'
 import { AngularFireAuth } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material';
+import { AngularFireModule } from '@angular/fire';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class EmployeesService {
 
   employeesChanged = new Subject<Employee[]>();
   employeeChanged = new Subject<Employee>();
+  employeeAdded = new Subject<boolean>();
 
   isLoading = new Subject<boolean>();
 
@@ -33,6 +35,7 @@ export class EmployeesService {
           .set(employee)
           .then(res => {
             this.isLoading.next(false);
+            this.employeeAdded.next(true);
             this.openSnackBar('Funcionário cadastrado com sucesso!', 'OK');
           })
           .catch(err => {

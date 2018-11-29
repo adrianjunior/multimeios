@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   currentEmployee: Employee = {
     name: '',
     email: '',
-    type: -1
+    isRuler: false
   };
 
   constructor(private router: Router, private authService: AuthService, private employeesService: EmployeesService){};

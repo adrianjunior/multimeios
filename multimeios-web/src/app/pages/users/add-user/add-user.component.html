@@ -2,8 +2,8 @@
   <mat-tab-group>
     <mat-tab label="Registrar Aluno"> 
       <mat-card fxFlex="600px" class="mat-elevation-z2">
-        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form1="ngForm" (ngSubmit)="onSubmitStudent(form1)">
-          <mat-card-title>Registrar Novo Aluno</mat-card-title>
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form1="ngForm" (ngSubmit)="addUser(form1, 0)">
+          <mat-card-title color="primary">Cadastrar Aluno</mat-card-title>
     
           <mat-form-field class="v-input">
             <input type="text" matInput placeholder="Nome do Aluno" ngModel name="name" required #unInput="ngModel">
@@ -30,8 +30,8 @@
     </mat-tab>
     <mat-tab label="Registrar Professor"> 
       <mat-card fxFlex="600px" class="mat-elevation-z2">
-        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form2="ngForm" (ngSubmit)="onSubmitTeacher(form2)">
-          <mat-card-title>Registrar Novo Professor</mat-card-title>
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form2="ngForm" (ngSubmit)="addUser(form2, 1)">
+          <mat-card-title class="title">Cadastrar Professor</mat-card-title>
     
           <mat-form-field class="v-input">
             <input type="text" matInput placeholder="Nome do Professor" ngModel name="name" required #unInput="ngModel">
@@ -58,8 +58,8 @@
     </mat-tab>
     <mat-tab label="Registrar Outro"> 
       <mat-card fxFlex="600px" class="mat-elevation-z2">
-        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form3="ngForm" (ngSubmit)="onSubmitOther(form3)">
-          <mat-card-title>Registrar Outro Usuário</mat-card-title>
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form3="ngForm" (ngSubmit)="addUser(form3, 2)">
+          <mat-card-title class="title">Cadastrar Outro Usuário</mat-card-title>
     
           <mat-form-field class="v-input">
             <input type="text" matInput placeholder="Nome do Usuário" ngModel name="name" required #unInput="ngModel">

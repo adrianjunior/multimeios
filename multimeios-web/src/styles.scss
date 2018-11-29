@@ -34,3 +34,7 @@ h1, h2, h3 {
 .mat-expansion-panel {
     $border-radius: 0px;
 }
+
+.mat-tab-body-wrapper{
+    flex-grow: 1;
+}

@@ -7,11 +7,11 @@ import { BooksService } from '../../../services/books/books.service';
 import { ConfirmReturnModal } from '../../../modals/confirm-return-modal/confirm-return-modal';
 
 @Component({
-  selector: 'app-return-book',
-  templateUrl: './return-book.component.html',
-  styleUrls: ['./return-book.component.css']
+  selector: 'app-borrowings',
+  templateUrl: './borrowings.component.html',
+  styleUrls: ['./borrowings.component.css']
 })
-export class ReturnBookComponent implements OnInit {
+export class BorrowingsComponent implements OnInit {
 
   ripple: string = 'rgba(104, 58, 183, 0.4)';
   borrowingsSubscription: Subscription;
@@ -23,8 +23,7 @@ export class ReturnBookComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private booksService: BooksService, private snackBar: MatSnackBar, 
-              public dialog: MatDialog) {}
+  constructor(private booksService: BooksService, public dialog: MatDialog) {}
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -38,28 +37,9 @@ export class ReturnBookComponent implements OnInit {
     });
     this.booksService.getBorrowings();
   }
-W
+
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
-
-  openDialog(borrowing: Borrowing): void{
-    this.dialog.open(ConfirmReturnModal, {
-      width: '600px',
-      data: {borrowing: borrowing}
-    });
-
-    /*dialogRef.afterClosed().subscribe(result => {
-      
-    });*/
-  }
-
-  //SnackBar
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 6000,
-    });
-  }
-
 }

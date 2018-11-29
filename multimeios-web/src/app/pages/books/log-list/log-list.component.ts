@@ -14,7 +14,6 @@ import { EmployeesService } from '../../../services/employees/employees.service'
 })
 export class LogListComponent implements OnInit {
 
-  ripple: string = 'rgba(104, 58, 183, 0.4)';
   logSubscription: Subscription;
   logItems: LogItem[];
 

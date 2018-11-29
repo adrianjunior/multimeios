@@ -1,0 +1,29 @@
+.v-input {
+    width: 510px;
+}
+
+.h-input {
+    width: 160px;
+}
+
+.add-card {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.title-bar {
+    height: 72px;
+}
+
+.title {
+    margin: 0;
+    color: rgba(104, 58, 183, 0.8);
+}
+
+.spinner-text {
+    margin: 0!important;
+}
+
+.spinner-container {
+    padding-top: 16px;
+}

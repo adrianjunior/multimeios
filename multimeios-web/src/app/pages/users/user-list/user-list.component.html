@@ -1,56 +1,171 @@
-<mat-drawer-container class="drawer-container">
-  <mat-drawer position="end" #drawer mode="over" class="drawer" fxLayout fxLayoutAlign="center center">
-    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form"> 
+<mat-tab-group class="group-container">
 
-      <mat-card-title>Informações do Aluno</mat-card-title>
+  <mat-tab label="Alunos" class="tab-container">
+    <mat-drawer-container class="drawer-container">
+      <mat-drawer position="end" #sDrawer mode="over" class="drawer" fxLayout fxLayoutAlign="center center">
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form"> 
+
+          <mat-card-title>Informações do Aluno</mat-card-title>
+          
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="Nome do Aluno" readonly value="{{user.name}}">
+          </mat-form-field>
+
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="Turma do Aluno" readonly value="{{user.class}}">
+          </mat-form-field>
+
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="E-mail do Aluno" readonly value="{{user.email}}">
+          </mat-form-field>
       
-      <mat-form-field class="v-input">
-        <input type="text" matInput placeholder="Nome do Aluno" readonly value="{{user.name}}">
-      </mat-form-field>
+          <button class="v-input" mat-raised-button color="primary" [disabled]="1 == 1">Editar Aluno</button>
+        </form>
+      </mat-drawer>
+      <div class="container mat-elevation-z4" style="margin-top: 5vh;">
+        <div class="header mat-elevation-z2">
+          <mat-form-field>
+            <input matInput (keyup)="sApplyFilter($event.target.value)" placeholder="Pesquisar">
+          </mat-form-field>
+        </div>
+        <mat-table #sTable #sSort="matSort" [dataSource]="sDataSource" matSort>
 
-      <mat-form-field class="v-input">
-        <input type="text" matInput placeholder="Turma do Aluno" readonly value="{{user.class}}">
-      </mat-form-field>
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let student"> {{student.name}} </mat-cell>
+          </ng-container>
 
-      <mat-form-field class="v-input">
-        <input type="text" matInput placeholder="Email do Aluno" readonly value="{{user.email}}">
-      </mat-form-field>
-   
-      <div fxLayout="row" fxLayoutGap="15px">
-        <button mat-raised-button color="primary" [disabled]="1 == 1">Editar Aluno</button>
-        <button mat-raised-button color="primary" [disabled]="1 == 1" (click)="goToDevolution()">Ver Livros Alugados</button>
+          <ng-container matColumnDef="class">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Turma </mat-header-cell>
+            <mat-cell *matCellDef="let student"> {{student.class}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </mat-header-cell>
+            <mat-cell *matCellDef="let student"> {{student.email}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="sDisplayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let student; columns: sDisplayedColumns;" matRipple [matRippleColor]="ripple" class="row" (click)="toggleSidenav(0, student)">
+          </mat-row>
+        </mat-table>
+
+        <mat-paginator #sPaginator [pageSize]="10" [showFirstLastButtons]="true">
+        </mat-paginator>
       </div>
-    </form>
-  </mat-drawer>
-  <div class="container mat-elevation-z4" style="margin-top: 5vh;">
-    <div class="header mat-elevation-z2">
-      <mat-form-field>
-        <input matInput (keyup)="sApplyFilter($event.target.value)" placeholder="Pesquisar">
-      </mat-form-field>
-    </div>
-    <mat-table #sTable #sSort="matSort" [dataSource]="sDataSource" matSort>
+    </mat-drawer-container>
+  </mat-tab>
 
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-        <mat-cell *matCellDef="let student"> {{student.name}} </mat-cell>
-      </ng-container>
+  <mat-tab label="Professores">
+    <mat-drawer-container class="drawer-container">
+      <mat-drawer position="end" #tDrawer mode="over" class="drawer" fxLayout fxLayoutAlign="center center">
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form"> 
 
-      <ng-container matColumnDef="class">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Turma </mat-header-cell>
-        <mat-cell *matCellDef="let student"> {{student.class}} </mat-cell>
-      </ng-container>
+          <mat-card-title>Informações do Professor</mat-card-title>
+          
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="Nome do Professor" readonly value="{{user.name}}">
+          </mat-form-field>
 
-      <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> E-Mail </mat-header-cell>
-        <mat-cell *matCellDef="let student"> {{student.email}} </mat-cell>
-      </ng-container>
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="Função do Professor" readonly value="{{user.role}}">
+          </mat-form-field>
 
-      <mat-header-row *matHeaderRowDef="sDisplayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let student; columns: sDisplayedColumns;" class="row" (click)="toggleSidenav(student)">
-      </mat-row>
-    </mat-table>
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="E-mail do Professor" readonly value="{{user.email}}">
+          </mat-form-field>
+      
+          <button class="v-input" mat-raised-button color="primary" [disabled]="1 == 1">Editar Professor</button>
+        </form>
+      </mat-drawer>
+      <div class="container mat-elevation-z4" style="margin-top: 5vh;">
+        <div class="header mat-elevation-z2">
+          <mat-form-field>
+            <input matInput (keyup)="tApplyFilter($event.target.value)" placeholder="Pesquisar">
+          </mat-form-field>
+        </div>
+        <mat-table #sTable #tSort="matSort" [dataSource]="tDataSource" matSort>
 
-    <mat-paginator #sPaginator [pageSize]="10" [showFirstLastButtons]="true">
-    </mat-paginator>
-  </div>
-</mat-drawer-container>
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let teacher"> {{teacher.name}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="subject">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Função </mat-header-cell>
+            <mat-cell *matCellDef="let teacher"> {{teacher.role}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </mat-header-cell>
+            <mat-cell *matCellDef="let teacher"> {{teacher.email}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="tDisplayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let teacher; columns: tDisplayedColumns;" matRipple [matRippleColor]="ripple" class="row" (click)="toggleSidenav(1, teacher)">
+          </mat-row>
+        </mat-table>
+
+        <mat-paginator #tPaginator [pageSize]="10" [showFirstLastButtons]="true">
+        </mat-paginator>
+      </div>
+    </mat-drawer-container>
+  </mat-tab>
+
+  <mat-tab label="Outros">
+    <mat-drawer-container class="drawer-container">
+      <mat-drawer position="end" #oDrawer mode="over" class="drawer" fxLayout fxLayoutAlign="center center">
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form"> 
+
+          <mat-card-title>Informações do Usuário</mat-card-title>
+          
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="Nome do Usuário" readonly value="{{user.name}}">
+          </mat-form-field>
+
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="Função do Usuário" readonly value="{{user.role}}">
+          </mat-form-field>
+
+          <mat-form-field class="v-input">
+            <input type="text" matInput placeholder="E-mail do Usuário" readonly value="{{user.email}}">
+          </mat-form-field>
+      
+          <button class="v-input" mat-raised-button color="primary" [disabled]="1 == 1">Editar Aluno</button>
+        </form>
+      </mat-drawer>
+      <div class="container mat-elevation-z4" style="margin-top: 5vh;">
+        <div class="header mat-elevation-z2">
+          <mat-form-field>
+            <input matInput (keyup)="oApplyFilter($event.target.value)" placeholder="Pesquisar">
+          </mat-form-field>
+        </div>
+        <mat-table #sTable #oSort="matSort" [dataSource]="oDataSource" matSort>
+
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.name}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="role">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Função </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.role}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.email}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="oDisplayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let user; columns: oDisplayedColumns;" matRipple [matRippleColor]="ripple" class="row" (click)="toggleSidenav(2, user)">
+          </mat-row>
+        </mat-table>
+
+        <mat-paginator #oPaginator [pageSize]="10" [showFirstLastButtons]="true">
+        </mat-paginator>
+      </div>
+    </mat-drawer-container>
+  </mat-tab>
+
+</mat-tab-group>

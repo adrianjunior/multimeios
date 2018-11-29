@@ -12,12 +12,6 @@
                     <h3 class="sidnav-subheader">Livros</h3>
                 </mat-expansion-panel-header>
                 <div class="button-container">
-                    <div class="sidenav-button"  matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-livro')">
-                        <b>Cadastrar Livro</b>
-                    </div>
-                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-livros')">
-                        <b>Lista de Livros</b>
-                    </div>
                     <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('alugar-livro')">
                         <b>Alugar Livro</b>
                     </div>
@@ -26,6 +20,15 @@
                     </div>
                     <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('historico-logs')">
                         <b>Histórico de Movimentações</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-alugueis')">
+                        <b>Lista de Aluguéis</b>
+                    </div>
+                    <div class="sidenav-button"  matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-livro')">
+                        <b>Cadastrar Livro</b>
+                    </div>
+                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-livros')">
+                        <b>Lista de Livros</b>
                     </div>
                 </div>
             </mat-expansion-panel>
@@ -68,20 +71,6 @@
                     </div>
                     <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-noticias')">
                         <b>Lista de Notícias</b>
-                    </div>
-                </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel class="sidenav-subheader-container">
-                <mat-expansion-panel-header matRipple [matRippleColor]="primary">
-                    <mat-icon>face</mat-icon>
-                    <h3 class="sidnav-subheader">Funcionários</h3>
-                </mat-expansion-panel-header>
-                <div class="button-container">
-                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('cadastrar-funcionario')">
-                        <b>Cadastrar Funcionário</b>
-                    </div>
-                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-funcionarios')">
-                        <b>Lista de Funcionários</b>
                     </div>
                 </div>
             </mat-expansion-panel>

@@ -10,6 +10,7 @@ import { User } from '../../models/user.model';
 import { Borrowing } from '../../models/borrowing.model';
 import { LogItem } from '../../models/logitem.model';
 import { EmployeesService } from '../employees/employees.service';
+import { Employee } from '../../models/employee.model';
 
 @Injectable({
   providedIn: 'root'
@@ -153,8 +154,8 @@ export class BooksService {
             return moment(item2.endDate).diff(item1.endDate);
           })
           this.borrowings.forEach(item => {
-            item.startDate = moment(item.startDate).locale('pt-br').format('LLL');
-            item.endDate = moment(item.endDate).locale('pt-br').format('LLL');
+            item.startDate = moment(item.startDate).locale('pt-br').format('L');
+            item.endDate = moment(item.endDate).locale('pt-br').format('L');
           })
           this.borrowingsChanged.next([...this.borrowings])
           this.isLoading.next(false);
@@ -162,22 +163,18 @@ export class BooksService {
     );
   }
 
-  borrowBook(user: User, book: Book) {
+  borrowBook(user: User, book: Book, employee: Employee) {
     this.isLoading.next(true)
     const now = moment();
     const borrowDate = now.toISOString();
     const returnDate = now.add(15, 'days').toISOString();
-    this.employeeSubscription = this.employeesService.employeeChanged.subscribe(employee => {
-      
-    })
-    this.employeesService.getCurrentEmployee();
     let borrowing: Borrowing = {
       bookId: book.id,
       bookTitle: book.title,
       bookAuthor: book.author,
       bookAvailable: book.available-1,
-      employeeId: '',
-      employeeName: '',
+      employeeId: employee.id,
+      employeeName: employee.name,
       startDate: borrowDate,
       endDate: returnDate,
       userId: user.id,
@@ -185,12 +182,12 @@ export class BooksService {
       userEmail: user.email,
       userBorrowing: user.borrowing+1
     };
-    console.log(borrowing)
+    console.log('borrowing')
     this.addBorrowing(borrowing);
     let logItem: LogItem = {
       type: 'Aluguel de Livro',
       dateTime: moment().toISOString(),
-      employeeName: '',
+      employeeName: employee.name,
       bookTitle: book.title,
       bookAuthor: book.author,
       userName: user.name,
@@ -282,18 +279,14 @@ export class BooksService {
       })
   }
 
-  returnBook(borrowing: Borrowing) {
+  returnBook(borrowing: Borrowing, employee: Employee) {
     this.isLoading.next(true)
-    this.employeeSubscription = this.employeesService.employeeChanged.subscribe(employee => {
-      
-    })
-    this.employeesService.getCurrentEmployee();
-    console.log(borrowing)
+    console.log('returning')
     this.removeBorrowing(borrowing);
     let logItem: LogItem = {
       type: 'Devolução de Livro',
       dateTime: moment().toISOString(),
-      employeeName: '',
+      employeeName: employee.name,
       bookTitle: borrowing.bookTitle,
       bookAuthor: borrowing.bookAuthor,
       userName: borrowing.userName,

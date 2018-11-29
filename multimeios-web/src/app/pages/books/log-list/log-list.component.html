@@ -45,7 +45,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let logItem; columns: displayedColumns;" matRipple [matRippleColor]="ripple" class="row" (click)="openDialog(logItem)">
+    <mat-row *matRowDef="let logItem; columns: displayedColumns;" class="row" (click)="openDialog(logItem)">
     </mat-row>
   </mat-table>
 

@@ -1,3 +1,25 @@
-<p>
-  add-notice works!
-</p>
+<div class="title-bar" fxLayout fxLayoutAlign="center center">
+  <h1 class="title">Postar Notícia</h1>
+</div>
+<section class="signin-form" fxLayoutAlign="center" fxLayoutGap="15px">
+  <div *ngIf="loading == true" class="spinner-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="32px">
+    <mat-spinner color="background-color"></mat-spinner>
+    <h1 class="spinner-text">Postando Notícia...</h1>
+  </div>
+  <mat-card *ngIf="loading == false" fxFlex="600px" class="add-card  mat-elevation-z4">
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #f="ngForm" (ngSubmit)="postNotice(f)">
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Título da Notícia" ngModel name="title" required #ntInput="ngModel">
+        <mat-error *ngIf="ntInput.hasError('required')">Você deve colocar o título da Noticia.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <textarea matInput placeholder="Corpo da Notícia" ngModel name="body" required #nbInput="ngModel"></textarea>
+        <mat-error *ngIf="nbInput.hasError('required')">Você deve colocar o corpo da Notícia.</mat-error>
+      </mat-form-field>
+
+      <button type="submit" class="v-input" mat-raised-button color="primary" [disabled]="f.invalid">Postar Notícia</button>
+    </form>    
+  </mat-card>
+</section>

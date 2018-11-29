@@ -3,6 +3,8 @@ import { User } from '../../models/user.model';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { Borrowing } from '../../models/borrowing.model';
 import { BooksService } from '../../services/books/books.service';
+import { EmployeesService } from '../../services/employees/employees.service';
+import { Employee } from '../../models/employee.model';
 
 @Component({
   selector: 'app-confirm-return-modal',
@@ -13,10 +15,11 @@ export class ConfirmReturnModal implements OnInit {
 
   borrowing: Borrowing;
   loading: boolean = false;
+  employee: Employee;
 
   constructor(public dialogRef: MatDialogRef<ConfirmReturnModal>,
               @Inject(MAT_DIALOG_DATA) public data, public dialog: MatDialog, 
-              private booksService: BooksService) { }
+              private booksService: BooksService, private employeesService: EmployeesService) { }
 
   ngOnInit() {
     this.borrowing = this.data.borrowing;
@@ -28,6 +31,10 @@ export class ConfirmReturnModal implements OnInit {
         this.dialogRef.close();
       }
     })
+    this.employeesService.employeeChanged.subscribe(employee => {
+      this.employee = employee;
+    })
+    this.employeesService.getCurrentEmployee();
   }
 
   closeDialog() {
@@ -35,7 +42,7 @@ export class ConfirmReturnModal implements OnInit {
   }
 
   confirmReturn() {
-    this.booksService.returnBook(this.borrowing);
+    this.booksService.returnBook(this.borrowing, this.employee);
   }
 
 }

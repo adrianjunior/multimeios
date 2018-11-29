@@ -4,6 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { Book } from '../../models/book.model';
 import { ValidateUserEmailModal } from '../validate-user-email-modal/validate-user-email-modal';
 import { BooksService } from '../../services/books/books.service';
+import { EmployeesService } from '../../services/employees/employees.service';
+import { Employee } from '../../models/employee.model';
 
 @Component({
   templateUrl: './confirm-borrow-modal.html',
@@ -13,12 +15,13 @@ export class ConfirmBorrowModal implements OnInit {
 
   book: Book;
   user: User;
+  employee: Employee;
 
   loading: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<ConfirmBorrowModal>,
               @Inject(MAT_DIALOG_DATA) public data, public dialog: MatDialog, 
-              private booksService: BooksService) { }
+              private booksService: BooksService, private employeesService: EmployeesService) { }
 
   ngOnInit() {
     this.book = this.data.book.book;
@@ -31,6 +34,10 @@ export class ConfirmBorrowModal implements OnInit {
         this.dialogRef.close();
       }
     })
+    this.employeesService.employeeChanged.subscribe(employee => {
+      this.employee = employee;
+    })
+    this.employeesService.getCurrentEmployee();
   }
 
   previousDialog() {
@@ -42,7 +49,7 @@ export class ConfirmBorrowModal implements OnInit {
   }
 
   confirmBorrow() {
-    this.booksService.borrowBook(this.user, this.book);
+    this.booksService.borrowBook(this.user, this.book, this.employee);
   }
 
 }

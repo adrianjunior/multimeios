@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
-import { Location } from '@angular/common';
 
 import { User } from '../../../models/user.model';
 import { UsersService } from '../../../services/users/users.service';
@@ -33,7 +31,9 @@ export class AddUserComponent implements OnInit {
   private classSubscription: Subscription;
   private userSubscription: Subscription
 
-  @ViewChild(NgForm) form1: NgForm;
+  @ViewChild('form1') form1: NgForm;
+  @ViewChild('form2') form2: NgForm;
+  @ViewChild('form3') form3: NgForm;
 
   constructor(private usersService: UsersService, private classesService: ClassesService) { }
 
@@ -46,39 +46,23 @@ export class AddUserComponent implements OnInit {
     this.classesService.getClasses();
     this.userSubscription = this.usersService.userAdded.subscribe(added => {
       this.form1.reset();
+      this.form2.reset();
+      this.form3.reset();
     })
   }
 
-  onSubmitStudent(form: NgForm) {
+  addUser(form: NgForm, type: number) {
     this.user = {
       name: form.value.name,
-      class: form.value.class,
       email: form.value.email,
-      type: 0,
+      type: type,
       borrowing: 0
     };
-    this.usersService.addUser(this.user);
-  }
-
-  onSubmitTeacher(form: NgForm) {
-    this.user = {
-      name: form.value.name,
-      role: `Professor de ${form.value.subject}`,
-      email: form.value.email,
-      type: 1,
-      borrowing: 0
-    };
-    this.usersService.addUser(this.user);
-  }
-
-  onSubmitOther(form: NgForm) {
-    this.user = {
-      name: form.value.name,
-      role: form.value.role,
-      email: form.value.email,
-      type: 0,
-      borrowing: 0
-    };
+    if(type > 0) {
+      this.user.role = form.value.role;
+    } else {
+      this.user.class = form.value.class;
+    }
     this.usersService.addUser(this.user);
   }
 

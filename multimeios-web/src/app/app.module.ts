@@ -22,14 +22,13 @@ import { AddNoticeComponent } from './pages/notices/add-notice/add-notice.compon
 import { NoticeListComponent } from './pages/notices/notice-list/notice-list.component';
 import { AddUserComponent } from './pages/users/add-user/add-user.component';
 import { UserListComponent } from './pages/users/user-list/user-list.component';
-import { AddEmployeeComponent } from './pages/employees/add-employee/add-employee.component';
-import { EmployeeListComponent } from './pages/employees/employee-list/employee-list.component';
 import { ValidateUserEmailModal } from './modals/validate-user-email-modal/validate-user-email-modal';
 import { ConfirmBorrowModal } from './modals/confirm-borrow-modal/confirm-borrow-modal';
 import { AddUserModal } from './modals/add-user-modal/add-user-modal';
 import { AddClassComponent } from './pages/classes/add-class/add-class.component';
 import { ClassListComponent } from './pages/classes/class-list/class-list.component';
 import { ConfirmReturnModal } from './modals/confirm-return-modal/confirm-return-modal';
+import { BorrowingsComponent } from './pages/books/borrowings/borrowings.component';
 
 @NgModule({
   declarations: [
@@ -44,14 +43,13 @@ import { ConfirmReturnModal } from './modals/confirm-return-modal/confirm-return
     BorrowBookComponent,
     ReturnBookComponent,
     LogListComponent,
-    AddEmployeeComponent,
-    EmployeeListComponent,
     ValidateUserEmailModal,
     ConfirmBorrowModal,
     AddUserModal,
     AddClassComponent,
     ClassListComponent,
     ConfirmReturnModal,
+    BorrowingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +57,7 @@ import { ConfirmReturnModal } from './modals/confirm-return-modal/confirm-return
     AngularFireModule.initializeApp(environment.firebase),
     AppRoutingModule,
     AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     MaterialModule,
     FormsModule,
