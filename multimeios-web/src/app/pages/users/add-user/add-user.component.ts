@@ -44,13 +44,13 @@ export class AddUserComponent implements OnInit {
     this.usersService.isLoading.subscribe(loading => {
       this.loading = loading;
     })
-    this.classSubscription = this.classesService.classesChanged.subscribe(classes => {
+    this.classesService.classesChanged.subscribe(classes => {
       classes.forEach(clss => {
         this.classes.push(clss.name);
       })
     })
     this.classesService.getClasses();
-    this.userSubscription = this.usersService.userAdded.subscribe(added => {
+    this.usersService.userAdded.subscribe(added => {
       this.form1.reset();
       this.form2.reset();
       this.form3.reset();

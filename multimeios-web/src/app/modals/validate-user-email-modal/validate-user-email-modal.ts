@@ -60,7 +60,7 @@ export class ValidateUserEmailModal implements OnInit {
 
   addNewUser() {
     this.dialog.open(AddUserModal, {
-      width: '600px',
+      width: '700px',
       data: {book: this.book}
     });
     this.closeDialog();

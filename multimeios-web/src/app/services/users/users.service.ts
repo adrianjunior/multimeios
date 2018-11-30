@@ -26,7 +26,7 @@ export class UsersService {
   userChanged = new Subject<User>();
   userByEmailChanged = new Subject<User>();
   isLoading = new Subject<boolean>();
-  userAdded = new Subject<boolean>();
+  userAdded = new Subject<string>();
   didEdit = new Subject<boolean>();
   didDelete = new Subject<boolean>();
 
@@ -44,7 +44,7 @@ export class UsersService {
       .then(res => {
         this.openSnackBar('Usuário Cadastrado com sucesso!', 'OK')
         this.isLoading.next(false);
-        this.userAdded.next(true);
+        this.userAdded.next(res.id);
         let logItem: LogItem = {
           type: 'Cadastro de Usuário',
           dateTime: moment().toISOString(),

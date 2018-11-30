@@ -4,6 +4,7 @@ import { BooksService } from '../../../services/books/books.service';
 import { NgForm } from '@angular/forms';
 import { EmployeesService } from '../../../services/employees/employees.service';
 import { Employee } from '../../../models/employee.model';
+import categories from '../../../../assets/categories';
 
 @Component({
   selector: 'app-add-book',
@@ -12,11 +13,7 @@ import { Employee } from '../../../models/employee.model';
 })
 export class AddBookComponent implements OnInit {
 
-  categories: string[] = [
-    'Conto',
-    'Novela',
-    'Quadrinhos'
-  ];
+  categories: string[] = categories;
 
   loading: boolean = false;
   employee: Employee;

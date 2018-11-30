@@ -1,9 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { UsersService } from '../../services/users/users.service';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { ConfirmBorrowModal } from '../confirm-borrow-modal/confirm-borrow-modal';
+import { ClassesService } from '../../services/classes/classes.service';
+import { EmployeesService } from '../../services/employees/employees.service';
+import { Employee } from '../../models/employee.model';
 
 @Component({
   templateUrl: './add-user-modal.html',
@@ -13,42 +16,51 @@ export class AddUserModal implements OnInit {
 
   loading: boolean = false;
 
-  classes: string[] = [
-    'Primeiro A',
-    'Primeiro B',
-    'Primeiro C',
-    'Segundo A',
-    'Segundo B',
-    'Segundo C',
-    'Terceiro A',
-    'Terceiro B',
-    'Terceiro C'
-  ];
+  classes: string[] = [];
 
   private user: User;
+  private employee: Employee;
 
   constructor(private usersService: UsersService,
               public dialogRef: MatDialogRef<AddUserModal>,
-              public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public book) { }
+              public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public book,
+              private employeesService: EmployeesService,  private classesService: ClassesService) { }
 
   ngOnInit() {
     this.usersService.isLoading.subscribe(loading => {
       this.loading = loading;
     })
-    this.usersService.userAdded.subscribe(added => {
+    this.classesService.classesChanged.subscribe(classes => {
+      classes.forEach(clss => {
+        this.classes.push(clss.name);
+      })
+    })
+    this.classesService.getClasses();
+    this.usersService.userAdded.subscribe(userId => {
+      this.user.id = userId;
       this.openDialog(this.user);
     })
+    this.employeesService.employeeChanged.subscribe(employee => {
+      this.employee = employee;
+    })
+    this.employeesService.getCurrentEmployee();
   }
 
-  onSubmitStudent(form: NgForm) {
+  addUser(form: NgForm, type: number) {
     this.user = {
       name: form.value.name,
-      class: form.value.class,
       email: form.value.email,
-      type: 2,
+      type: type,
       borrowing: 0
     };
-    this.usersService.addUser(this.user);
+    if(type == 0) {
+      this.user.class = form.value.class;
+    } else if (type == 1) {
+      this.user.subject = form.value.subject;
+    } else if (type == 2) {
+      this.user.role = form.value.role;
+    }
+    this.usersService.addUser(this.user, this.employee);
   }
 
   openDialog(user: User) {

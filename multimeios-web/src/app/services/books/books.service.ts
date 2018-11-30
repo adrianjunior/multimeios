@@ -183,6 +183,10 @@ export class BooksService {
           })
           this.borrowings.forEach(item => {
             item.startDate = moment(item.startDate).locale('pt-br').format('L');
+            console.log(moment().diff(moment(item.endDate), 'days'))
+            if(moment(item.endDate).diff(moment(), 'days') < 0) {
+              item.isLate = true;
+            }
             item.endDate = moment(item.endDate).locale('pt-br').format('L');
           })
           this.borrowingsChanged.next([...this.borrowings])
@@ -195,7 +199,13 @@ export class BooksService {
     this.isLoading.next(true)
     const now = moment();
     const borrowDate = now.toISOString();
-    const returnDate = now.add(15, 'days').toISOString();
+    let returnDate;
+    if(user.type == 1) {
+      returnDate = now.add(30, 'days').toISOString();
+    } else {
+      returnDate = now.add(15, 'days').toISOString();
+    }
+    
     let borrowing: Borrowing = {
       bookId: book.id,
       bookTitle: book.title,

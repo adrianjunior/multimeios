@@ -41,7 +41,7 @@
 
     <ng-container matColumnDef="endDate">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Data de Devolução </mat-header-cell>
-      <mat-cell *matCellDef="let borrowing"> {{borrowing.endDate}} </mat-cell>
+      <mat-cell *matCellDef="let borrowing"> {{borrowing.endDate}} <mat-chip-list><mat-chip *ngIf="borrowing.isLate == true" color="warn" selected style="font-size: 0.7em">ATRASADO</mat-chip></mat-chip-list></mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

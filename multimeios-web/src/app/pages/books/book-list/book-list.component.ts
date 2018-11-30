@@ -7,6 +7,8 @@ import { BooksService } from '../../../services/books/books.service';
 import { NgForm } from '@angular/forms';
 import { DeletionModal } from '../../../modals/deletion-modal/deletion-modal';
 import { EditionModal } from '../../../modals/edition-modal/edition-modal';
+import categories from '../../../../assets/categories';
+
 
 @Component({
   selector: 'app-book-list',
@@ -15,12 +17,7 @@ import { EditionModal } from '../../../modals/edition-modal/edition-modal';
 })
 export class BookListComponent implements OnInit, AfterViewInit {
 
-  categories: string[] = [
-    'Conto',
-    'Novela',
-    'Quadrinhos'
-  ];
-
+  categories: string[] = categories;
   ripple: string = 'rgba(104, 58, 183, 0.4)';
   book: Book = {
     title: '',

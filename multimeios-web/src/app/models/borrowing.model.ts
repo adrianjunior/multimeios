@@ -12,4 +12,5 @@ export interface Borrowing {
     employeeName: string;
     startDate: string;
     endDate: string;
+    isLate?: boolean;
 }
