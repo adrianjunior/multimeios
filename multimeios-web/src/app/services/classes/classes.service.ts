@@ -27,7 +27,7 @@ export class ClassesService {
   constructor(private db: AngularFirestore, private snackBar: MatSnackBar) {}
 
   //Create
-  addClass(clss: Class) {
+  addClass(clss: Class, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('classes')
@@ -35,6 +35,13 @@ export class ClassesService {
       .then(res => {
         this.isLoading.next(false);
         this.openSnackBar('Turma cadastrada com sucesso!', 'OK');
+        let logItem: LogItem = {
+          type: 'Cadastro de Turma',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          bookTitle: clss.name
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.isLoading.next(false);

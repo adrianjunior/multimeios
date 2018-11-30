@@ -37,6 +37,6 @@ export class AddNoticeComponent implements OnInit {
       employeeId: this.employee.id,
       employeeName: this.employee.name
     }
-    this.noticesService.addNotice(notice);
+    this.noticesService.addNotice(notice, this.employee);
   }
 }

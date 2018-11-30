@@ -18,9 +18,6 @@
                     <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('devolver-livro')">
                         <b>Devolver Livro</b>
                     </div>
-                    <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('historico-logs')">
-                        <b>Histórico de Movimentações</b>
-                    </div>
                     <div class="sidenav-button" matRipple [matRippleColor]="primary" (click)="changePage('lista-alugueis')">
                         <b>Lista de Aluguéis</b>
                     </div>
@@ -73,6 +70,12 @@
                         <b>Lista de Notícias</b>
                     </div>
                 </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel class="sidenav-subheader-container" hideToggle="true">
+                <mat-expansion-panel-header matRipple [matRippleColor]="primary" (click)="changePage('historico-logs')">
+                    <mat-icon>history</mat-icon>
+                    <h3 class="sidnav-subheader">Histórico</h3>
+                </mat-expansion-panel-header>
             </mat-expansion-panel>
             <mat-expansion-panel class="sidenav-subheader-container" hideToggle="true">
                 <mat-expansion-panel-header matRipple [matRippleColor]="primary" (click)="logout()">

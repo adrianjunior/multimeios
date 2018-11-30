@@ -36,7 +36,7 @@ export class UsersService {
   constructor(private db: AngularFirestore, private authentication: AngularFireAuth, private snackBar: MatSnackBar) { }
 
   //Create
-  addUser(user: User) {
+  addUser(user: User, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('users')
@@ -45,6 +45,14 @@ export class UsersService {
         this.openSnackBar('Usuário Cadastrado com sucesso!', 'OK')
         this.isLoading.next(false);
         this.userAdded.next(true);
+        let logItem: LogItem = {
+          type: 'Cadastro de Usuário',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          userName: user.name,
+          userEmail: user.email
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK')

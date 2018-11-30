@@ -40,7 +40,7 @@ export class BooksService {
               private employeesService: EmployeesService) {}
 
   //Create
-  addBook(book: Book) {
+  addBook(book: Book, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('books')
@@ -48,6 +48,14 @@ export class BooksService {
       .then(res => {
         this.isLoading.next(false);
         this.openSnackBar('Livro cadastrado com sucesso!', 'OK');
+        let logItem: LogItem = {
+          type: 'Cadastro de Livro',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          bookTitle: book.title,
+          bookAuthor: book.author
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.isLoading.next(false);

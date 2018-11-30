@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-
 import { User } from '../../../models/user.model';
 import { UsersService } from '../../../services/users/users.service';
 import { ClassesService } from '../../../services/classes/classes.service';
 import { Subscription } from 'rxjs';
+import { EmployeesService } from '../../../services/employees/employees.service';
+import { Employee } from '../../../models/employee.model';
 
 @Component({
   selector: 'app-add-user',
@@ -30,14 +31,19 @@ export class AddUserComponent implements OnInit {
   private user: User;
   private classSubscription: Subscription;
   private userSubscription: Subscription
+  employee: Employee;
+  loading: boolean = false;
 
   @ViewChild('form1') form1: NgForm;
   @ViewChild('form2') form2: NgForm;
   @ViewChild('form3') form3: NgForm;
 
-  constructor(private usersService: UsersService, private classesService: ClassesService) { }
+  constructor(private usersService: UsersService, private classesService: ClassesService, private employeesService: EmployeesService) { }
 
   ngOnInit() {
+    this.usersService.isLoading.subscribe(loading => {
+      this.loading = loading;
+    })
     this.classSubscription = this.classesService.classesChanged.subscribe(classes => {
       classes.forEach(clss => {
         this.classes.push(clss.name);
@@ -49,6 +55,10 @@ export class AddUserComponent implements OnInit {
       this.form2.reset();
       this.form3.reset();
     })
+    this.employeesService.employeeChanged.subscribe(employee => {
+      this.employee = employee;
+    })
+    this.employeesService.getCurrentEmployee();
   }
 
   addUser(form: NgForm, type: number) {
@@ -65,7 +75,7 @@ export class AddUserComponent implements OnInit {
     } else if (type == 2) {
       this.user.role = form.value.role;
     }
-    this.usersService.addUser(this.user);
+    this.usersService.addUser(this.user, this.employee);
   }
 
 }

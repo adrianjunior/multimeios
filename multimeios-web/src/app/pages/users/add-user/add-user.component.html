@@ -1,7 +1,14 @@
+<div class="title-bar" fxLayout fxLayoutAlign="center center">
+  <h1 class="title">Cadastrar Usuário</h1>
+</div>
 <section class="signin-form" fxLayoutAlign="center" fxLayoutGap="15px" style="margin-top: 5vh;">
-  <mat-tab-group>
+  <div *ngIf="loading == true" class="spinner-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="32px">
+    <mat-spinner color="background-color"></mat-spinner>
+    <h1 class="spinner-text">Cadastrando Usuário...</h1>
+  </div>
+  <mat-tab-group  *ngIf="loading == false" class="mat-elevation-z4">
     <mat-tab label="Registrar Aluno"> 
-      <mat-card fxFlex="600px" class="mat-elevation-z2">
+      <mat-card fxFlex="600px">
         <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #form1="ngForm" (ngSubmit)="addUser(form1, 0)">
           <mat-card-title color="primary">Cadastrar Aluno</mat-card-title>
     
@@ -24,7 +31,7 @@
             <mat-error *ngIf="ueInput.hasError('required')">Você deve colocar o email do aluno.</mat-error>
           </mat-form-field>
     
-          <button type="submit" mat-raised-button color="primary" [disabled]="form1.invalid">Registrar Aluno</button>
+          <button type="submit" class="v-input" mat-raised-button color="primary" [disabled]="form1.invalid">Registrar Aluno</button>
         </form>    
       </mat-card>
     </mat-tab>
@@ -52,7 +59,7 @@
             <mat-error *ngIf="ueInput.hasError('required')">Você deve colocar o email do professor.</mat-error>
           </mat-form-field>
     
-          <button type="submit" mat-raised-button color="primary" [disabled]="form2.invalid">Registrar Professor</button>
+          <button type="submit" class="v-input" mat-raised-button color="primary" [disabled]="form2.invalid">Registrar Professor</button>
         </form>    
       </mat-card>
     </mat-tab>
@@ -76,7 +83,7 @@
             <mat-error *ngIf="ueInput.hasError('required')">Você deve colocar o email do usuário.</mat-error>
           </mat-form-field>
     
-          <button type="submit" mat-raised-button color="primary" [disabled]="form3.invalid">Registrar Usuário</button>
+          <button type="submit" class="v-input" mat-raised-button color="primary" [disabled]="form3.invalid">Registrar Usuário</button>
         </form>    
       </mat-card>
     </mat-tab>

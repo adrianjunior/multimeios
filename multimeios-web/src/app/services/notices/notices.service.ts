@@ -27,7 +27,7 @@ export class NoticesService {
   constructor(private db: AngularFirestore, private snackBar: MatSnackBar) {}
 
   //Create
-  addNotice(notice: Notice) {
+  addNotice(notice: Notice, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('notices')
@@ -35,6 +35,13 @@ export class NoticesService {
       .then(res => {
         this.isLoading.next(false);
         this.openSnackBar('Notícia postada com sucesso!', 'OK');
+        let logItem: LogItem = {
+          type: 'Postagem de Notícia',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          bookTitle: notice.title
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.isLoading.next(false);
