@@ -14,6 +14,7 @@ import { AuthGuard } from './auth-guard';
 import { ClassListComponent } from './pages/classes/class-list/class-list.component';
 import { AddClassComponent } from './pages/classes/add-class/add-class.component';
 import { BorrowingsComponent } from './pages/books/borrowings/borrowings.component';
+import { CreditsComponent } from './pages/credits/credits.component';
 
 const routes: Routes = [
     {path: '', component: LoginPageComponent},
@@ -30,6 +31,7 @@ const routes: Routes = [
     {path: 'cadastrar-turma', component: AddClassComponent, canActivate: [AuthGuard]},
     {path: 'lista-noticias', component: NoticeListComponent, canActivate: [AuthGuard]},
     {path: 'postar-noticia', component: AddNoticeComponent, canActivate: [AuthGuard]},
+    {path: 'creditos', component: CreditsComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

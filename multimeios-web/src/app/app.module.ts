@@ -31,6 +31,7 @@ import { ConfirmReturnModal } from './modals/confirm-return-modal/confirm-return
 import { BorrowingsComponent } from './pages/books/borrowings/borrowings.component';
 import { DeletionModal } from './modals/deletion-modal/deletion-modal';
 import { EditionModal } from './modals/edition-modal/edition-modal';
+import { CreditsComponent } from './pages/credits/credits.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { EditionModal } from './modals/edition-modal/edition-modal';
     BorrowingsComponent,
     DeletionModal,
     EditionModal,
+    CreditsComponent,
   ],
   imports: [
     BrowserModule,

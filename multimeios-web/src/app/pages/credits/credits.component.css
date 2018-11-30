@@ -1,0 +1,9 @@
+.img {
+    height: 100px;
+    width: auto;
+    border-radius: 100px;
+}
+
+.title {    
+    color: rgba(104, 58, 183, 0.8);
+}

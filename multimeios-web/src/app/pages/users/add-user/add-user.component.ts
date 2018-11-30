@@ -6,6 +6,7 @@ import { ClassesService } from '../../../services/classes/classes.service';
 import { Subscription } from 'rxjs';
 import { EmployeesService } from '../../../services/employees/employees.service';
 import { Employee } from '../../../models/employee.model';
+import subjects from '../../../../assets/subjects';
 
 @Component({
   selector: 'app-add-user',
@@ -15,18 +16,7 @@ import { Employee } from '../../../models/employee.model';
 export class AddUserComponent implements OnInit {
 
   classes: string[] = [];
-  subjects: string[] = [
-    'Português',
-    'Literatura',
-    'Redação',
-    'Filosofia',
-    'Sociologia',
-    'Física',
-    'Química',
-    'Biologia',
-    'Matemática',
-    'Educação Física'
-  ];
+  subjects: string[] = subjects;
 
   private user: User;
   private classSubscription: Subscription;

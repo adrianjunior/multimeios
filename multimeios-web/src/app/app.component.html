@@ -78,6 +78,12 @@
                 </mat-expansion-panel-header>
             </mat-expansion-panel>
             <mat-expansion-panel class="sidenav-subheader-container" hideToggle="true">
+                <mat-expansion-panel-header matRipple [matRippleColor]="primary" (click)="changePage('creditos')">
+                    <mat-icon>info</mat-icon>
+                    <h3 class="sidnav-subheader">Créditos</h3>
+                </mat-expansion-panel-header>
+            </mat-expansion-panel>
+            <mat-expansion-panel class="sidenav-subheader-container" hideToggle="true">
                 <mat-expansion-panel-header matRipple [matRippleColor]="primary" (click)="logout()">
                     <mat-icon>keyboard_return</mat-icon>
                     <h3 class="sidnav-subheader">Sair</h3>
