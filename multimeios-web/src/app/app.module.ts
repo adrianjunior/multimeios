@@ -29,6 +29,8 @@ import { AddClassComponent } from './pages/classes/add-class/add-class.component
 import { ClassListComponent } from './pages/classes/class-list/class-list.component';
 import { ConfirmReturnModal } from './modals/confirm-return-modal/confirm-return-modal';
 import { BorrowingsComponent } from './pages/books/borrowings/borrowings.component';
+import { DeletionModal } from './modals/deletion-modal/deletion-modal';
+import { EditionModal } from './modals/edition-modal/edition-modal';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { BorrowingsComponent } from './pages/books/borrowings/borrowings.compone
     ClassListComponent,
     ConfirmReturnModal,
     BorrowingsComponent,
+    DeletionModal,
+    EditionModal,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +73,8 @@ import { BorrowingsComponent } from './pages/books/borrowings/borrowings.compone
     ConfirmBorrowModal,
     AddUserModal,
     ConfirmReturnModal,
+    DeletionModal,
+    EditionModal,
   ],
   providers: [
     AngularFirestore,

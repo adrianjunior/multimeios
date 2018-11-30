@@ -65,3 +65,15 @@
     width: 200px;
 }
 
+.title-bar {
+    height: 72px;
+}
+
+.title {
+    margin: 0;
+    color: rgba(104, 58, 183, 0.8);
+}
+
+.form-button {
+    width: 245px;
+}

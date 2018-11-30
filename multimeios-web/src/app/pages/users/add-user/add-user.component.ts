@@ -58,10 +58,12 @@ export class AddUserComponent implements OnInit {
       type: type,
       borrowing: 0
     };
-    if(type > 0) {
-      this.user.role = form.value.role;
-    } else {
+    if(type == 0) {
       this.user.class = form.value.class;
+    } else if (type == 1) {
+      this.user.subject = form.value.subject;
+    } else if (type == 2) {
+      this.user.role = form.value.role;
     }
     this.usersService.addUser(this.user);
   }

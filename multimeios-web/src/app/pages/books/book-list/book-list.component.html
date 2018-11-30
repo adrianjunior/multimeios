@@ -1,32 +1,36 @@
 <mat-drawer-container class="drawer-container">
   <mat-drawer position="end" #drawer mode="over" class="drawer">
-    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
-      <mat-card-title class="title">Informações do Livro</mat-card-title>
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #f="ngForm">
+      <mat-card-title class="title">Editar Livro</mat-card-title>
 
       <mat-form-field class="v-input">
-        <input type="text" matInput placeholder="Título do Livro" readonly value="{{book.title}}">
+        <input type="text" matInput placeholder="Título do Livro" ngModel name="title" value="{{book.title}}">
       </mat-form-field>
 
       <mat-form-field class="v-input">
-        <input type="text" matInput placeholder="Autor do Livro" readonly value="{{book.author}}">
+        <input type="text" matInput placeholder="Autor do Livro" ngModel name="author" value="{{book.author}}">
       </mat-form-field>
 
       <mat-form-field class="v-input">
-        <input type="text" matInput placeholder="Editora do Livro" readonly value="{{book.editor}}">
+        <input type="text" matInput placeholder="Editora do Livro" ngModel name="editor" value="{{book.editor}}">
       </mat-form-field>
 
       <mat-form-field class="v-input">
-        <input type="text" matInput placeholder="Categoria" readonly value="{{book.category}}">
+        <mat-select placeholder="Categoria do Livro" name="category" ngModel value="{{book.category}}">
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{category}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <div class="v-input" fxLayout fxLayoutGap="15px">
 
         <mat-form-field class="h-input">
-          <input type="text" matInput placeholder="Edição do Livro" readonly value="{{book.edition}}">
+          <input type="text" matInput placeholder="Edição do Livro" ngModel name="edition" value="{{book.edition}}">
         </mat-form-field>
 
         <mat-form-field class="h-input">
-          <input type="number" matInput placeholder="Ano da Edição" readonly value="{{book.year}}">
+          <input type="number" matInput placeholder="Ano da Edição" ngModel name="year" value="{{book.year}}">
         </mat-form-field>
 
         <mat-form-field class="h-input">
@@ -34,11 +38,15 @@
         </mat-form-field>
 
         <mat-form-field class="h-input">
-            <input type="number" matInput placeholder="Disponíveis" readonly value="{{book.available}}">
-          </mat-form-field>
+          <input type="number" matInput placeholder="Disponíveis" readonly value="{{book.available}}">
+        </mat-form-field>
       </div>
 
-      <button mat-raised-button class="v-input" color="primary" [disabled]="1 == 1">Editar Livro</button>
+      <div fxLayout fxLayoutGap="20px" class="v-input">
+        <button mat-button class="form-button" color="warn" (click)="closeSidenav()">Cancelar</button>
+        <button mat-raised-button class="form-button" color="primary" (click)="editBook(f)">Confirmar Edição</button>
+      </div>
+      <button mat-raised-button class="v-input" color="warn"(click)="deleteBook()">Excluir Livro</button>
     </form>    
   </mat-drawer>
   <div class="title-bar" fxLayout fxLayoutAlign="center center">

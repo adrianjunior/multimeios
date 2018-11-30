@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator, MatDrawer } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDrawer, MatDialog } from '@angular/material';
 
 import { Class } from '../../../models/class.model';
 import { Subscription } from 'rxjs';
 import { ClassesService } from '../../../services/classes/classes.service';
+import { NgForm } from '@angular/forms';
+import { EditionModal } from '../../../modals/edition-modal/edition-modal';
+import { DeletionModal } from '../../../modals/deletion-modal/deletion-modal';
 
 @Component({
   selector: 'app-class-list',
@@ -26,7 +29,7 @@ export class ClassListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatDrawer) drawer: MatDrawer;
 
-  constructor(private classesServices: ClassesService) { }
+  constructor(private classesServices: ClassesService, private dialog: MatDialog) { }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -50,6 +53,30 @@ export class ClassListComponent implements OnInit {
   toggleSidenav(clss: Class) {
     this.drawer.toggle();
     this.class = clss;
+  }
+
+  closeSidenav() {
+    this.drawer.close();
+  }
+
+  editClass(form: NgForm) {
+    let clss: Class = this.class;
+    if(form.value.name != "") {
+      clss.name = form.value.name;
+    }
+    this.closeSidenav();
+    this.dialog.open(EditionModal, {
+      width: '600px',
+      data: {type: 3, class: clss}
+    });
+  }
+
+  deleteClass() {
+    this.closeSidenav();
+    this.dialog.open(DeletionModal, {
+      width: '600px',
+      data: {type: 3, class: this.class}
+    });
   }
 
 }

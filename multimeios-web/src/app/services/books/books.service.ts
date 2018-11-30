@@ -29,6 +29,8 @@ export class BooksService {
   borrowingsChanged = new Subject<Borrowing[]>();
   didReturn = new Subject<boolean>();
   logItemsChanged = new Subject<LogItem[]>();
+  didEdit = new Subject<boolean>();
+  didDelete = new Subject<boolean>();
 
   employeeSubscription: Subscription; 
 
@@ -75,15 +77,24 @@ export class BooksService {
   }
 
   //Update
-  editBook(id: string, book: Book) {
+  editBook(book: Book, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('books')
-      .doc(id)
-      .update(book)
+      .doc(book.id)
+      .set(book)
       .then(res => {
         this.isLoading.next(false);
+        this.didEdit.next(true);
         this.openSnackBar('Livro editado com sucesso!', 'OK');
+        let logItem: LogItem = {
+          type: 'Edição de Livro',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          bookTitle: book.title,
+          bookAuthor: book.author
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.isLoading.next(false);
@@ -92,15 +103,24 @@ export class BooksService {
   }
 
   //Delete
-  deleteBook(id: string) {
+  deleteBook(book: Book, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('books')
-      .doc(id)
+      .doc(book.id)
       .delete()
       .then(res => {
         this.isLoading.next(false);
+        this.didDelete.next(true);
         this.openSnackBar('Livro excluido com sucesso!', 'OK');
+        let logItem: LogItem = {
+          type: 'Exclusão de Livro',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          bookTitle: book.title,
+          bookAuthor: book.author
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.isLoading.next(false);
@@ -151,7 +171,7 @@ export class BooksService {
         })
         .subscribe((borrowings: Borrowing[]) => {
           this.borrowings = borrowings.sort((item1, item2) => {
-            return moment(item2.endDate).diff(item1.endDate);
+            return moment(item1.endDate).diff(item2.endDate);
           })
           this.borrowings.forEach(item => {
             item.startDate = moment(item.startDate).locale('pt-br').format('L');
@@ -247,10 +267,6 @@ export class BooksService {
     this.db
       .collection('logs')
       .add(logItem)
-      .catch(err => {
-        this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
-        this.isLoading.next(false);
-      })
   }
 
   subtractBook(bookId: string, bookAvailable: number) {

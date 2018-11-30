@@ -1,3 +1,60 @@
-<p>
-  notice-list works!
-</p>
+<mat-drawer-container class="drawer-container">
+  <mat-drawer position="end" #drawer mode="over" class="drawer">
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #f="ngForm">
+      <mat-card-title class="title">Editar Notícia</mat-card-title>
+
+      <mat-form-field class="v-input">
+        <input type="text" matInput placeholder="Título da Notícia" ngModel name="title" value="{{notice.title}}">
+      </mat-form-field>
+
+      <mat-form-field class="v-input">
+        <textarea type="text" rows="20" matInput placeholder="Corpo da Notícia" ngModel name="body" value="{{notice.body}}"></textarea>
+      </mat-form-field>
+
+      <div fxLayout fxLayoutGap="20px" class="v-input">
+        <button mat-button class="form-button" color="warn" (click)="closeSidenav()">Cancelar</button>
+        <button mat-raised-button class="form-button" color="primary" (click)="editNotice(f)">Confirmar Edição</button>
+      </div>
+      <button mat-raised-button class="v-input" color="warn"(click)="deleteNotice()">Excluir Notícia</button>
+    </form>    
+  </mat-drawer>
+  <div class="title-bar" fxLayout fxLayoutAlign="center center">
+    <h1 class="title">Lista de Notícias</h1>
+  </div>
+  <div class="container mat-elevation-z4">
+    <div class="header mat-elevation-z2">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Pesquisar">
+      </mat-form-field>
+    </div>
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Título </mat-header-cell>
+        <mat-cell *matCellDef="let notice"> {{notice.title}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="author">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Autor </mat-header-cell>
+        <mat-cell *matCellDef="let notice"> {{notice.employeeName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="dateTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Data e Hora </mat-header-cell>
+        <mat-cell *matCellDef="let notice"> {{notice.dateTime}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="edited">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Editado? </mat-header-cell>
+        <mat-cell *matCellDef="let notice"><span *ngIf="notice.edited == true">Sim</span></mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let notice; columns: displayedColumns;" matRipple [matRippleColor]="ripple" class="row" (click)="toggleSidenav(notice)">
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [pageSize]="7" [showFirstLastButtons]="true">
+    </mat-paginator>
+  </div>
+</mat-drawer-container>

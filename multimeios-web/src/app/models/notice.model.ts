@@ -3,5 +3,7 @@ export interface Notice {
     title: string;
     body: string;
     dateTime: string;
+    employeeName: string;
+    employeeId: string;
     edited: boolean;
 }

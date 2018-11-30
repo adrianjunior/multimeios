@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { NoticesService } from '../../../services/notices/notices.service';
 import { Notice } from '../../../models/notice.model';
 import * as moment from 'moment';
+import { EmployeesService } from '../../../services/employees/employees.service';
+import { Employee } from '../../../models/employee.model';
 
 @Component({
   selector: 'app-add-notice',
@@ -12,13 +14,18 @@ import * as moment from 'moment';
 export class AddNoticeComponent implements OnInit {
 
   loading: boolean = false;
+  employee: Employee;
 
-  constructor(private noticesService: NoticesService) { }
+  constructor(private noticesService: NoticesService, private employeesService: EmployeesService) { }
 
   ngOnInit() {
     this.noticesService.isLoading.subscribe(loading => {
       this.loading = loading;
     })
+    this.employeesService.employeeChanged.subscribe(employee => {
+      this.employee = employee;
+    })
+    this.employeesService.getCurrentEmployee();
   }
 
   postNotice(form: NgForm) {
@@ -26,7 +33,9 @@ export class AddNoticeComponent implements OnInit {
       title: form.value.title,
       body: form.value.body,
       dateTime: moment().toISOString(),
-      edited: false
+      edited: false,
+      employeeId: this.employee.id,
+      employeeName: this.employee.name
     }
     this.noticesService.addNotice(notice);
   }

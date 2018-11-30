@@ -1,13 +1,17 @@
 <mat-drawer-container class="drawer-container">
   <mat-drawer position="end" #drawer mode="over" class="drawer">
-    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
-      <mat-card-title class="title">Informações da Turma</mat-card-title>
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" #f="ngForm">
+      <mat-card-title class="title">Editar Turma</mat-card-title>
 
       <mat-form-field class="v-input">
-        <input type="text" matInput placeholder="Nome da Turma" readonly value="{{class.name}}">
+        <input type="text" matInput placeholder="Nome da Turma" ngModel name="name" value="{{class.name}}">
       </mat-form-field>
 
-      <button mat-raised-button class="v-input" color="primary" [disabled]="1 == 1">Editar Turma</button>
+      <div fxLayout fxLayoutGap="20px" class="v-input">
+        <button mat-button class="form-button" color="warn" (click)="closeSidenav()">Cancelar</button>
+        <button mat-raised-button class="form-button" color="primary" (click)="editClass(f)">Confirmar Edição</button>
+      </div>
+      <button mat-raised-button class="v-input" color="warn"(click)="deleteClass()">Excluir Turma</button>
     </form>    
   </mat-drawer>
   <div class="title-bar" fxLayout fxLayoutAlign="center center">

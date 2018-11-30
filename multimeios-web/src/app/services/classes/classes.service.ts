@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Class } from '../../models/class.model';
 import { Subject } from 'rxjs/Subject';
-
+import * as moment from 'moment';
 import 'rxjs/add/operator/map'
 import { MatSnackBar } from '@angular/material';
+import { LogItem } from '../../models/logitem.model';
+import { Employee } from '../../models/employee.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +14,15 @@ import { MatSnackBar } from '@angular/material';
 export class ClassesService {
   classes: Class[];
   class: Class;
+  logItems: LogItem[];
 
   classesChanged = new Subject<Class[]>();
   classChanged = new Subject<Class>();
+  logItemsChanged = new Subject<LogItem[]>();
 
   isLoading = new Subject<boolean>();
+  didEdit = new Subject<boolean>();
+  didDelete = new Subject<boolean>();
 
   constructor(private db: AngularFirestore, private snackBar: MatSnackBar) {}
 
@@ -57,15 +63,23 @@ export class ClassesService {
   }
 
   //Update
-  editClass(id: string, clss: Class) {
+  editClass(clss: Class, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('classes')
-      .doc(id)
-      .update(clss)
+      .doc(clss.id)
+      .set(clss)
       .then(res => {
         this.isLoading.next(false);
+        this.didEdit.next(true);
         this.openSnackBar('Turma editada com sucesso!', 'OK');
+        let logItem: LogItem = {
+          type: 'Edição de Turma',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          bookTitle: clss.name
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.isLoading.next(false);
@@ -74,15 +88,23 @@ export class ClassesService {
   }
 
   //Delete
-  deleteClass(id: string) {
+  deleteClass(clss: Class, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('classes')
-      .doc(id)
+      .doc(clss.id)
       .delete()
       .then(res => {
         this.isLoading.next(false);
+        this.didDelete.next(true);
         this.openSnackBar('Turma excluida com sucesso!', 'OK');
+        let logItem: LogItem = {
+          type: 'Exclusão de Turma',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          bookTitle: clss.name,
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.isLoading.next(false);
@@ -109,6 +131,12 @@ export class ClassesService {
       this.classesChanged.next([...this.classes])
       this.isLoading.next(false);
     })
+  }
+
+  addLogItem(logItem: LogItem) {
+    this.db
+      .collection('logs')
+      .add(logItem)
   }
 
   //SnackBar

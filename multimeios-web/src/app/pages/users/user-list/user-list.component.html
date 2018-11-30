@@ -3,23 +3,31 @@
   <mat-tab label="Alunos" class="tab-container">
     <mat-drawer-container class="drawer-container">
       <mat-drawer position="end" #sDrawer mode="over" class="drawer" fxLayout fxLayoutAlign="center center">
-        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form"> 
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form" #f1="ngForm"> 
 
-          <mat-card-title>Informações do Aluno</mat-card-title>
+          <mat-card-title>Editar Aluno</mat-card-title>
           
           <mat-form-field class="v-input">
-            <input type="text" matInput placeholder="Nome do Aluno" readonly value="{{user.name}}">
+            <input type="text" matInput placeholder="Nome do Aluno" ngModel name="name" value="{{user.name}}">
           </mat-form-field>
 
           <mat-form-field class="v-input">
-            <input type="text" matInput placeholder="Turma do Aluno" readonly value="{{user.class}}">
+            <mat-select placeholder="Turma do Aluno" name="class" ngModel value="{{user.class}}">
+              <mat-option *ngFor="let class of classes" [value]="class">
+                {{class}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field class="v-input">
-            <input type="text" matInput placeholder="E-mail do Aluno" readonly value="{{user.email}}">
+            <input type="text" matInput placeholder="E-mail do Aluno" ngModel name="email" value="{{user.email}}">
           </mat-form-field>
       
-          <button class="v-input" mat-raised-button color="primary" [disabled]="1 == 1">Editar Aluno</button>
+          <div fxLayout fxLayoutGap="20px" class="v-input">
+            <button mat-button class="form-button" color="warn" (click)="closeSidenav(0)">Cancelar</button>
+            <button mat-raised-button class="form-button" color="primary" (click)="editUser(f1, 0)">Confirmar Edição</button>
+          </div>
+          <button mat-raised-button class="v-input" color="warn"(click)="deleteUser(0)">Excluir Aluno</button>
         </form>
       </mat-drawer>
       <div class="container mat-elevation-z4" style="margin-top: 5vh;">
@@ -59,23 +67,31 @@
   <mat-tab label="Professores">
     <mat-drawer-container class="drawer-container">
       <mat-drawer position="end" #tDrawer mode="over" class="drawer" fxLayout fxLayoutAlign="center center">
-        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form"> 
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form" #f2="ngForm"> 
 
-          <mat-card-title>Informações do Professor</mat-card-title>
+          <mat-card-title>Editar Professor</mat-card-title>
           
           <mat-form-field class="v-input">
-            <input type="text" matInput placeholder="Nome do Professor" readonly value="{{user.name}}">
+            <input type="text" matInput placeholder="Nome do Professor" ngModel name="name" required value="{{user.name}}">
           </mat-form-field>
 
           <mat-form-field class="v-input">
-            <input type="text" matInput placeholder="Função do Professor" readonly value="{{user.role}}">
+            <mat-select placeholder="Matéria do Professor" required name="subject" ngModel value="{{user.subject}}">
+              <mat-option *ngFor="let subject of subjects" [value]="subject">
+                {{subject}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field class="v-input">
-            <input type="text" matInput placeholder="E-mail do Professor" readonly value="{{user.email}}">
+            <input type="text" matInput placeholder="E-mail do Professor" ngModel name="email" value="{{user.email}}">
           </mat-form-field>
       
-          <button class="v-input" mat-raised-button color="primary" [disabled]="1 == 1">Editar Professor</button>
+          <div fxLayout fxLayoutGap="20px" class="v-input">
+            <button mat-button class="form-button" color="warn" (click)="closeSidenav(1)">Cancelar</button>
+            <button mat-raised-button class="form-button" color="primary" (click)="editUser(f2, 1)">Confirmar Edição</button>
+          </div>
+          <button mat-raised-button class="v-input" color="warn"(click)="deleteUser(1)">Excluir Professor</button>
         </form>
       </mat-drawer>
       <div class="container mat-elevation-z4" style="margin-top: 5vh;">
@@ -92,8 +108,8 @@
           </ng-container>
 
           <ng-container matColumnDef="subject">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Função </mat-header-cell>
-            <mat-cell *matCellDef="let teacher"> {{teacher.role}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Matéria </mat-header-cell>
+            <mat-cell *matCellDef="let teacher"> {{teacher.subject}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="email">
@@ -115,23 +131,27 @@
   <mat-tab label="Outros">
     <mat-drawer-container class="drawer-container">
       <mat-drawer position="end" #oDrawer mode="over" class="drawer" fxLayout fxLayoutAlign="center center">
-        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form"> 
+        <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" class="user-form" #f3="ngForm"> 
 
-          <mat-card-title>Informações do Usuário</mat-card-title>
+          <mat-card-title>Editar Usuário</mat-card-title>
           
           <mat-form-field class="v-input">
-            <input type="text" matInput placeholder="Nome do Usuário" readonly value="{{user.name}}">
+            <input type="text" matInput placeholder="Nome do Usuário" ngModel name="name" value="{{user.name}}">
           </mat-form-field>
 
           <mat-form-field class="v-input">
-            <input type="text" matInput placeholder="Função do Usuário" readonly value="{{user.role}}">
+            <input type="text" matInput placeholder="Função do Usuário" ngModel name="role" value="{{user.role}}">
           </mat-form-field>
 
           <mat-form-field class="v-input">
-            <input type="text" matInput placeholder="E-mail do Usuário" readonly value="{{user.email}}">
+            <input type="text" matInput placeholder="E-mail do Usuário" ngModel name="email" value="{{user.email}}">
           </mat-form-field>
       
-          <button class="v-input" mat-raised-button color="primary" [disabled]="1 == 1">Editar Aluno</button>
+          <div fxLayout fxLayoutGap="20px" class="v-input">
+            <button mat-button class="form-button" color="warn" (click)="closeSidenav(2)">Cancelar</button>
+            <button mat-raised-button class="form-button" color="primary" (click)="editUser(f3, 2)">Confirmar Edição</button>
+          </div>
+          <button mat-raised-button class="v-input" color="warn"(click)="deleteUser(2)">Excluir Usuário</button>
         </form>
       </mat-drawer>
       <div class="container mat-elevation-z4" style="margin-top: 5vh;">

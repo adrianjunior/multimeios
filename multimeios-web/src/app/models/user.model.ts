@@ -4,6 +4,7 @@ export interface User {
     class?: string;
     classId?: string;
     role?: string;
+    subject?: string;
     email: string;
     type: number;
     borrowing: number;

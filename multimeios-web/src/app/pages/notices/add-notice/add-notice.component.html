@@ -15,7 +15,7 @@
       </mat-form-field>
 
       <mat-form-field class="v-input">
-        <textarea matInput placeholder="Corpo da Notícia" ngModel name="body" required #nbInput="ngModel"></textarea>
+        <textarea rows="20" matInput placeholder="Corpo da Notícia" ngModel name="body" required #nbInput="ngModel"></textarea>
         <mat-error *ngIf="nbInput.hasError('required')">Você deve colocar o corpo da Notícia.</mat-error>
       </mat-form-field>
 

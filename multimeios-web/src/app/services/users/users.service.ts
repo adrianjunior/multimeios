@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '../../models/user.model';
 import { Subject } from 'rxjs/Subject';
+import * as moment from 'moment';
 
 import 'rxjs/add/operator/take'
 import 'rxjs/add/operator/map'
@@ -9,6 +10,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import { LogItem } from '../../models/logitem.model';
+import { Employee } from '../../models/employee.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +27,9 @@ export class UsersService {
   userByEmailChanged = new Subject<User>();
   isLoading = new Subject<boolean>();
   userAdded = new Subject<boolean>();
+  didEdit = new Subject<boolean>();
+  didDelete = new Subject<boolean>();
+
 
   getUserByEmailSub = new Subscription;
 
@@ -67,15 +73,24 @@ export class UsersService {
   }
 
   //Update
-  editUser(id: string, user: User) {
+  editUser(user: User, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('users')
-      .doc(id)
-      .update(user)
+      .doc(user.id)
+      .set(user)
       .then(res => {
         this.openSnackBar('Usuário editado com sucesso!', 'OK');
         this.isLoading.next(false);
+        this.didEdit.next(true);
+        let logItem: LogItem = {
+          type: 'Edição de Usuário',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          userName: user.name,
+          userEmail: user.email
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
@@ -84,15 +99,24 @@ export class UsersService {
   }
 
   //Delete
-  deleteUser(id: string) {
+  deleteUser(user: User, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('users')
-      .doc(id)
+      .doc(user.id)
       .delete()
       .then(res => {
         this.openSnackBar('Usuário excluido com sucesso!', 'OK');
+        this.didDelete.next(true);
         this.isLoading.next(false);
+        let logItem: LogItem = {
+          type: 'Exclusão de Usuário',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          userName: user.name,
+          userEmail: user.email
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
@@ -142,6 +166,16 @@ export class UsersService {
           this.userByEmailChanged.next(users[0])
         }
         this.getUserByEmailSub.unsubscribe();
+      })
+  }
+
+  addLogItem(logItem: LogItem) {
+    this.db
+      .collection('logs')
+      .add(logItem)
+      .catch(err => {
+        this.openSnackBar('Ocorreu um erro. Verifique sua conexão.', 'OK');
+        this.isLoading.next(false);
       })
   }
 

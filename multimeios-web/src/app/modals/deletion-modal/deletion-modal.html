@@ -1,0 +1,72 @@
+<div *ngIf="loading == true" class="spinner-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="32px">
+  <mat-spinner color="background-color"></mat-spinner>
+  <h1 class="spinner-text">Excluindo...</h1>
+</div>
+
+<div *ngIf="loading == false && type == 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">  
+  <h1 mat-dialog-title class="title">Excluir Livro</h1>
+  <div mat-dialog-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+    <p><b>Tem certeza que deseja excluir o livro?</b></p>
+
+    <div fxLayout="column" fxLayoutAlign="center start">
+      <span>Título do Livro: <b>{{book.title}}</b></span>
+      <span>Autor do Livro: <b>{{book.author}}</b></span>
+      <span>Editora do Livro: <b>{{book.editor}}</b></span>
+      <span>Edição do Livro: <b>{{book.edition}}</b></span>
+    </div> 
+
+    <div fxLayout fxLayoutGap="20px" class="v-input">
+      <button mat-raised-button class="dialog-button" color="warn" (click)="closeDialog()">Cancelar</button>
+      <button mat-raised-button class="dialog-button" color="primary" (click)="delete()">Confirmar EXCLUSÃO</button>
+    </div>
+  </div>
+</div>    
+
+<div *ngIf="loading == false && type == 1" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">  
+  <h1 mat-dialog-title class="title">Excluir Usuário</h1>
+  <div mat-dialog-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+    <p><b>Tem certeza que deseja excluir o usuário?</b></p>
+
+    <div fxLayout="column" fxLayoutAlign="center start">
+      <span>Nome do Usuário: <b>{{user.name}}</b></span>
+      <span>E-mail do Usuário: <b>{{user.email}}</b></span>
+    </div> 
+
+    <div fxLayout fxLayoutGap="20px" class="v-input">
+      <button mat-raised-button class="dialog-button" color="warn" (click)="closeDialog()">Cancelar</button>
+      <button mat-raised-button class="dialog-button" color="primary" (click)="delete()">Confirmar EXCLUSÃO</button>
+    </div>
+  </div>
+</div> 
+
+<div *ngIf="loading == false && type == 2" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">  
+  <h1 mat-dialog-title class="title">Excluir Notícia</h1>
+  <div mat-dialog-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+    <p><b>Tem certeza que deseja excluir a notícia?</b></p>
+
+    <div fxLayout="column" fxLayoutAlign="center start">
+      <span>Título da Notícia: <b>{{notice.title}}</b></span>
+    </div> 
+
+    <div fxLayout fxLayoutGap="20px" class="v-input">
+      <button mat-raised-button class="dialog-button" color="warn" (click)="closeDialog()">Cancelar</button>
+      <button mat-raised-button class="dialog-button" color="primary" (click)="delete()">Confirmar EXCLUSÃO</button>
+    </div>
+  </div>
+</div> 
+
+<div *ngIf="loading == false && type == 3" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">  
+  <h1 mat-dialog-title class="title">Excluir Turma</h1>
+  <div mat-dialog-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+    <p><b>Tem certeza que deseja excluir a turma?</b></p>
+
+    <div fxLayout="column" fxLayoutAlign="center start">
+      <span>Nome da Turma: <b>{{class.name}}</b></span>
+    </div> 
+
+    <div fxLayout fxLayoutGap="20px" class="v-input">
+      <button mat-raised-button class="dialog-button" color="warn" (click)="closeDialog()">Cancelar</button>
+      <button mat-raised-button class="dialog-button" color="primary" (click)="delete()">Confirmar EXCLUSÃO</button>
+    </div>
+  </div>
+</div> 

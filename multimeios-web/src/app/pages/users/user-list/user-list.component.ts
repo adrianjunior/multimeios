@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatTableDataSource, MatSort, MatPaginator, MatDrawer } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDrawer, MatDialog } from '@angular/material';
 
 import { User } from '../../../models/user.model';
 import { Subscription } from 'rxjs';
 import { UsersService } from '../../../services/users/users.service';
+import { ClassesService } from '../../../services/classes/classes.service';
+import { NgForm } from '@angular/forms';
+import { EditionModal } from '../../../modals/edition-modal/edition-modal';
+import { DeletionModal } from '../../../modals/deletion-modal/deletion-modal';
 
 @Component({
   selector: 'app-user-list',
@@ -29,6 +32,7 @@ export class UserListComponent implements OnInit {
     borrowing: -1
   };
   usersSubscription: Subscription;
+  classSubscription: Subscription;
 
   @ViewChild('sSort') sSort: MatSort;
   @ViewChild('sPaginator') sPaginator: MatPaginator;
@@ -40,7 +44,22 @@ export class UserListComponent implements OnInit {
   @ViewChild('tDrawer') tDrawer: MatDrawer;
   @ViewChild('oDrawer') oDrawer: MatDrawer;
 
-  constructor(private router: Router, private cdRef: ChangeDetectorRef, private usersService: UsersService) {}
+  classes: string[] = [];
+  subjects: string[] = [
+    'Português',
+    'Literatura',
+    'Redação',
+    'Filosofia',
+    'Sociologia',
+    'Física',
+    'Química',
+    'Biologia',
+    'Matemática',
+    'Educação Física'
+  ];
+
+  constructor(private cdRef: ChangeDetectorRef, private usersService: UsersService, private classesService: ClassesService,
+              private dialog: MatDialog) {}
 
   sApplyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -63,6 +82,12 @@ export class UserListComponent implements OnInit {
       });
     });
     this.usersService.getUsers();
+    this.classSubscription = this.classesService.classesChanged.subscribe(classes => {
+      classes.forEach(clss => {
+        this.classes.push(clss.name);
+      })
+    })
+    this.classesService.getClasses();
   }
 
   ngAfterViewInit() {
@@ -84,5 +109,55 @@ export class UserListComponent implements OnInit {
       this.oDrawer.toggle();
     }
     this.user = user;
+  }
+
+  closeSidenav(sidenav: number) {
+    if(sidenav == 0) {
+      this.sDrawer.close();
+    } else if (sidenav == 1) {
+      this.tDrawer.close();
+    } else if (sidenav == 2) {
+      this.oDrawer.close();
+    }
+  }
+
+  editUser(form: NgForm, type: number) {
+    let user: User = this.user;
+
+    if(form.value.name != "") {
+      user.name = form.value.name;
+    }
+
+    if(form.value.email != "") {
+      user.email = form.value.email;
+    }
+
+    if(type == 0) {
+      if(form.value.class != "") {
+        user.class = form.value.class;
+      }
+    } else if (type == 1) {
+      if(form.value.subject != "") {
+        user.subject = form.value.subject;
+      }
+    } else if (type == 2) {
+      if(form.value.role != "") {
+        user.role = form.value.role;
+      }
+    }
+
+    this.closeSidenav(type);
+    this.dialog.open(EditionModal, {
+      width: '600px',
+      data: {type: 1, user: user}
+    });
+  }
+
+  deleteUser(type: number) {
+    this.closeSidenav(type);
+    this.dialog.open(DeletionModal, {
+      width: '600px',
+      data: {type: 1, user: this.user}
+    });
   }
 }

@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Notice } from '../../models/notice.model';
 import { Subject } from 'rxjs/Subject';
+import * as moment from 'moment';
 
 import 'rxjs/add/operator/map'
 import { MatSnackBar } from '@angular/material';
+import { LogItem } from '../../models/logitem.model';
+import { Employee } from '../../models/employee.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +21,8 @@ export class NoticesService {
   noticeChanged = new Subject<Notice>();
 
   isLoading = new Subject<boolean>();
+  didEdit = new Subject<boolean>();
+  didDelete = new Subject<boolean>();
 
   constructor(private db: AngularFirestore, private snackBar: MatSnackBar) {}
 
@@ -58,15 +63,25 @@ export class NoticesService {
   }
 
   //Update
-  editNotice(id: string, notice: Notice) {
+  editNotice(notice: Notice, employee: Employee) {
     this.isLoading.next(true);
+    notice.edited = true;
+    notice.dateTime = moment().toISOString();
     this.db
       .collection('notices')
-      .doc(id)
-      .update(notice)
+      .doc(notice.id)
+      .set(notice)
       .then(res => {
         this.isLoading.next(false);
+        this.didEdit.next(true);
         this.openSnackBar('Notícia editada com sucesso!', 'OK');
+        let logItem: LogItem = {
+          type: 'Edição de Notícia',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          bookTitle: notice.title
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.isLoading.next(false);
@@ -75,15 +90,23 @@ export class NoticesService {
   }
 
   //Delete
-  deleteNotice(id: string) {
+  deleteNotice(notice: Notice, employee: Employee) {
     this.isLoading.next(true);
     this.db
       .collection('notices')
-      .doc(id)
+      .doc(notice.id)
       .delete()
       .then(res => {
         this.isLoading.next(false);
+        this.didDelete.next(true);
         this.openSnackBar('Notícia excluida com sucesso!', 'OK');
+        let logItem: LogItem = {
+          type: 'Exclusão de Notícia',
+          dateTime: moment().toISOString(),
+          employeeName: employee.name,
+          bookTitle: notice.title,
+        }
+        this.addLogItem(logItem);
       })
       .catch(err => {
         this.isLoading.next(false);
@@ -107,9 +130,21 @@ export class NoticesService {
     })
     .subscribe((notices: Notice[]) => {
       this.notices = notices;
+      this.notices = notices.sort((item1, item2) => {
+        return moment(item2.dateTime).diff(item1.dateTime);
+      })
+      this.notices.forEach(notice => {
+        notice.dateTime = moment(notice.dateTime).locale('pt-br').format('LLL');
+      })
       this.noticesChanged.next([...this.notices])
       this.isLoading.next(false);
     })
+  }
+
+  addLogItem(logItem: LogItem) {
+    this.db
+      .collection('logs')
+      .add(logItem)
   }
 
   //SnackBar

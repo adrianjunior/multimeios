@@ -31,8 +31,7 @@ export class BorrowBookComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private bookService: BooksService, private employeesService: EmployeesService,
-              private _formBuilder: FormBuilder, private snackBar: MatSnackBar, 
+  constructor(private bookService: BooksService, private snackBar: MatSnackBar, 
               public dialog: MatDialog) {}
 
   applyFilter(filterValue: string) {
